@@ -1,0 +1,1042 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+/* Reset básico e tipografia */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+:root {
+  /* ... outras variáveis ... */
+  --color-bg: #ede6fe;          /* Fundo principal (lavanda muito claro) */
+  --color-surface: var(--color-bg); /* ✅ FAZ OS BLOCOS TEREM A MESMA COR DO FUNDO */
+  --color-text: #1f2937;         /* Texto principal (quase preto) */
+  /* ... outras variáveis ... */
+}
+/* ESTA É A REGRA CORRIGIDA E COMPLETA */
+/* ESTA É A REGRA CORRIGIDA E COMPLETA */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--color-bg); /* <- A única regra de fundo que precisamos */
+  /* A linha do background-image foi REMOVIDA */
+  background-attachment: fixed;
+  color: var(--color-text);
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+/* ======================================================= */
+/* O RESTO DO SEU CSS CONTINUA ABAIXO         */
+/* ======================================================= */
+/* Header */
+.header {
+  background-color: #51125e;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+/* Container principal da página */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  flex-grow: 1;
+  padding-bottom: 20px;
+}
+
+/* CÓDIGO CORRIGIDO - Copie e cole este */
+/* VERSÃO CORRETA E COMPLETA - Por favor, use esta */
+.section-title {
+  /* --- Estilos que criam a caixa roxa e o texto branco --- */
+  background-color: #8c2ca7; /* A cor de fundo roxa */
+  color: #fff;              /* A cor da fonte branca */
+  border-radius: 12px;       /* As bordas arredondadas */
+  box-shadow: 0 3px 6px rgba(140, 44, 167, 0.3); /* A sombra suave */
+
+  /* --- Estilos para espaçamento e alinhamento --- */
+  padding: 12px 25px; /* Espaço DENTRO da caixa */
+  margin: 40px auto;      /* Espaço FORA da caixa (em cima e embaixo) */
+  text-align: center;
+  font-size: 1.8rem;
+  max-width: 800px;
+}
+
+/* Grids de produtos */
+/* COLE ESTE CÓDIGO NO SEU ARQUIVO styles.css */
+
+/* --- Layout dos Produtos --- */
+
+/*
+  COPIE E COLE ESTE CÓDIGO FINAL NO SEU ARQUIVO styles.css
+  (Apague qualquer versão anterior sobre os produtos)
+*/
+
+/* --- Layout dos Produtos --- */
+
+.products-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  align-items: flex-start;    /* <<< ESTA É A NOVA LINHA QUE RESOLVE TUDO */
+  padding: 0 10px;
+}
+
+/* 🎯 CORREÇÃO CRÍTICA AQUI: Centraliza todo o conteúdo do product-card */
+.product-card {
+  width: 180px;
+  margin-bottom: 15px;
+  flex-shrink: 0;
+  text-align: center; /* Isso já centraliza o texto */
+  display: flex; /* Transforma o card em um container flex */
+  flex-direction: column; /* Organiza os itens em coluna */
+  align-items: center; /* Centraliza os itens horizontalmente */
+  justify-content: space-between; /* Distribui o espaço entre os itens para que o botão "selecionar" fique sempre na base */
+  padding-bottom: 15px; /* Adiciona um padding para o botão não ficar colado na borda inferior */
+}
+
+/* --- Layout para CELULAR --- */
+@media (max-width: 600px) {
+  .product-card {
+    width: calc(50% - 15px); /* Mantém os dois cards por linha */
+    flex-grow: 1; /* Permite que os cards cresçam um pouco para preencher o espaço */
+    /* Remova flex-shrink: 0; se você quiser que eles encolham em telas muito pequenas,
+        mas com width: calc(50% - 15px) e gap, geralmente não é necessário. */
+  }
+}
+
+/* Estilo para destacar campos não preenchidos */
+.highlight-error {
+  border: 2px solid red !important;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Para telas maiores (como computador), fazemos os cards ficarem um pouco maiores */
+@media (min-width: 768px) {
+  .product-card {
+    width: 180px; /* Em telas grandes, cada card tem uma largura fixa */
+    flex-grow: 0; /* Desativa o ajuste automático em telas grandes */
+  }
+}
+
+/* Estilo para destacar campos não preenchidos (já estava no seu JS) */
+.highlight-error {
+  border: 2px solid red !important;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+  transition: all 0.3s ease-in-out;
+}
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.product-card img {
+    width: 140px;
+    height: 140px;
+    object-fit: contain;
+    margin-bottom: 12px;
+}
+
+.product-card h3 {
+    color: #51125e;
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+    /* Adicionado para garantir o alinhamento central */
+    width: 100%;
+}
+
+.complements-info {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 10px;
+    flex-grow: 1; /* Permite que ele cresça e ocupe o espaço */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 5px 0;
+    width: 100%; /* Garante que ocupe a largura total para centralizar */
+}
+
+.price {
+    background-color: #2ecb70;
+    color: white;
+    padding: 6px 18px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    display: inline-block;
+    margin: 8px 0 15px;
+}
+
+/* 🎯 CORREÇÃO CRÍTICA AQUI: Centraliza o botão 'Selecionar' */
+.select-btn {
+    background-color: #51125e;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    width: 90%; /* Mantém a largura de 90% */
+    max-width: 200px;
+    margin-top: auto; /* IMPORTANTE: Empurra o botão para o final do container flex */
+    font-weight: 600;
+    box-shadow: 0 4px 8px rgba(81, 18, 94, 0.2);
+    /* Remova display: block; e text-align: center; se product-card já for flex
+        e você quiser centralizá-lo com align-self: center; */
+    align-self: center; /* Centraliza o próprio item dentro do container flex (.product-card) */
+}
+
+.select-btn:hover {
+    background-color: #6d1c80;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(81, 18, 94, 0.3);
+}
+
+.select-btn.selected {
+    background-color: #2ecb70;
+    color: #ffffff;
+    box-shadow: 0 4px 8px rgba(46, 203, 112, 0.3);
+    transform: translateY(0);
+}
+
+/* Banner */
+/* CÓDIGO CORRIGIDO PARA O BANNER DESKTOP */
+.banner {
+  width: 100%;
+  max-height: 450px; /* <<< ADICIONE ESTA LINHA PARA LIMITAR A ALTURA */
+  background-image: url('/d.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  aspect-ratio: 16/9;
+}
+
+/* CÓDIGO CORRIGIDO PARA MOBILE */
+@media (max-width: 768px) {
+    .banner {
+  display: none;
+}
+  #mobile-banner {
+    display: block;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #fff;
+    text-align: center;
+  }
+
+  #mobile-banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .banner {
+    display: none; /* ESCONDE o banner genérico no mobile */
+  }
+
+  .section-title {
+    margin: 30px 10px 20px;
+  }
+
+  .products-grid {
+    /* grid-template-columns: 1fr;   Isto vai fazer apenas um card por linha, se você quiser dois, mantenha o flexbox */
+    /* Se você quer um card por linha no mobile, descomente a linha acima e apague a regra .product-card no @media (max-width: 600px) */
+  }
+}
+
+/* Rodapé principal */
+.summary-section {
+  background: #ffffff;
+  border-radius: 10px 10px 0 0;
+  padding: 15px 20px;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  flex-shrink: 0;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.total-price {
+  font-size: 1.8rem;
+  color: #51125e;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.total-price span {
+  color: #2ecb70;
+  font-weight: bold;
+}
+
+.footer {
+  background-color: #51125e;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: auto;
+  flex-shrink: 0;
+}
+
+/* Checkboxes e Radios personalizados */
+.complements-grid input[type="checkbox"],
+.delivery-section input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+/* Os inputs de rádio de pagamento agora estão em #main-payment-choice-section */
+#main-payment-choice-section input[name="payment"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+
+.complement-item label,
+.delivery-option label,
+.payment-card {
+    display: block;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+    text-align: center;
+    font-weight: 500;
+    color: #555;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.complement-item label:hover,
+.delivery-option label:hover,
+.payment-card:hover {
+    border-color: #8c2ca7;
+    background-color: #f5f0ff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.complements-grid input[type="checkbox"]:checked + label,
+.delivery-section input[type="checkbox"]:checked + label {
+    border-color: #8c2ca7;
+    background-color: #f0e6ff;
+    color: #51125e;
+    box-shadow: 0 4px 8px rgba(140, 44, 167, 0.2);
+    font-weight: 600;
+}
+
+/* Alterado para #main-payment-choice-section */
+#main-payment-choice-section .payment-card.selected {
+    border-color: #8c2ca7;
+    background-color: #f0e6ff;
+    color: #51125e;
+    box-shadow: 0 4px 8px rgba(140, 44, 167, 0.3);
+    font-weight: 600;
+}
+
+/* Layouts específicos */
+.complement-category h4 {
+    color: #51125e;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.complements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 12px; /* Ajuste o espaçamento como preferir */
+    
+    /* ✅ ADICIONE ESTA LINHA: */
+    /* Centraliza a grade horizontalmente quando há espaço sobrando. */
+    justify-content: center; 
+
+    /* A propriedade abaixo pode ser removida ou mantida, pois */
+    /* o alinhamento já é feito no .complement-item. */
+    align-items: stretch; 
+}
+
+/* Opcional: Garante que o texto dentro de cada item esteja sempre centralizado. */
+/* Seu código já faz isso bem, mas esta é uma confirmação. */
+.complement-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+}
+
+.complement-item label {
+    width: 100%;
+    height: 100%;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+.delivery-section, #main-payment-choice-section, #delivery-address-section {
+    margin-top: 20px;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.delivery-section h3, #main-payment-choice-section h3, #delivery-address-section h3,
+.payment-mode-group h4 { /* Novo: estiliza o h4 para os grupos de pagamento */
+    color: #51125e;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.delivery-options-wrapper, .payment-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    align-items: stretch;
+}
+
+.delivery-option {
+    flex-grow: 1;
+    max-width: 200px;
+    text-align: center;
+}
+
+.delivery-option label {
+    min-width: 140px;
+    padding: 15px 20px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    border-radius: 30px;
+    border: 2px solid #ddd;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+}
+
+.delivery-option label:hover {
+    border-color: #8c2ca7;
+    box-shadow: 0 4px 8px rgba(140, 44, 167, 0.2);
+}
+
+.delivery-section input[type="checkbox"]:checked + label {
+    border-color: #2ecb70;
+    background-color: #e6ffe6;
+    color: #28a745;
+    box-shadow: 0 4px 8px rgba(46, 203, 112, 0.3);
+}
+
+.payment-card {
+    flex: 1 1 150px;
+    max-width: 180px;
+    border: 2px solid #ddd;
+    border-radius: 15px;
+    padding: 15px;
+    cursor: pointer;
+    display: flex; /* Para alinhar imagem e texto */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.payment-card:hover {
+    border-color: #8c2ca7;
+    background-color: #f5f0ff;
+    box-shadow: 0 5px 10px rgba(140, 44, 167, 0.2);
+}
+
+.payment-card img {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 8px;
+}
+
+.payment-card div {
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+
+.payment-card small { /* Estilo para a tag small "Via WhatsApp" ou "Via Mercado Pago" */
+    font-size: 0.85em;
+    color: #777;
+    margin-top: 5px;
+}
+
+
+/* Campos de texto */
+#customer-name, #troco-section input, #delivery-address {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 1.05rem;
+    text-align: center;
+}
+#customer-name:focus, #troco-section input:focus, #delivery-address:focus {
+    border-color: #8c2ca7;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(140, 44, 167, 0.15);
+}
+#troco-section label {
+    display: block;
+    margin-bottom: 8px;
+    color: #51125e;
+    font-weight: 600;
+}
+
+/* --- Lista do Carrinho no Modal --- */
+#cart-modal-list {
+    list-style: none;
+    padding: 15px;
+    margin-top: 15px;
+    max-height: 300px;
+    overflow-y: auto;
+    background: #fdfdfd;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+#cart-modal-list li {
+    padding: 8px 0;
+    border-bottom: 1px dashed #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+#cart-modal-list li small {
+    flex-basis: 100%;
+    font-style: italic;
+    color: #777;
+}
+
+/* --- Botão Flutuante de Carrinho --- */
+.floating-cart-btn {
+    position: fixed;
+    bottom: 140px;
+    right: 20px;
+    background-color: #8c2ca7;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+}
+.floating-cart-btn img { width: 30px; height: 30px; }
+.floating-cart-btn:hover { transform: scale(1.05); }
+
+#cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #2ecb70;
+    color: white;
+    border-radius: 50%;
+    padding: 3px 7px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+/* --- Botões de Ação --- */
+.confirm-btn {
+    background-color: #2ecb70;
+    color: white;
+    border: none;
+    padding: 18px 40px;
+    border-radius: 35px;
+    font-size: 1.4rem;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 6px 12px rgba(46, 203, 112, 0.3);
+}
+.confirm-btn:hover {
+    background-color: #28b563;
+    transform: translateY(-3px);
+}
+.confirm-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+.modal-clear-cart-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 20px auto 0;
+}
+.modal-clear-cart-btn:hover { background-color: #c82333; }
+
+/***** INÍCIO DA SEÇÃO DO MODAL - VERSÃO FINAL *****/
+
+/* --- ESTILOS GERAIS PARA MODAIS --- */
+#cart-modal-overlay,
+#complements-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 2000;
+    
+    /* Centraliza a caixa do modal */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Controle de visibilidade */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#cart-modal-overlay.is-visible,
+#complements-modal-overlay.is-visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Conteúdo do Modal (a caixa branca) */
+#cart-modal-content,
+#complements-modal-content {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+    width: 90%;
+    max-width: 650px;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    
+    /* Layout Flexível e Altura */
+    height: 90vh; /* FORÇA a altura do modal */
+    display: flex;
+    flex-direction: column;
+    
+    /* Animação */
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+#cart-modal-overlay.is-visible #cart-modal-content,
+#complements-modal-overlay.is-visible #complements-modal-content {
+    transform: scale(1);
+}
+
+/* Botão de fechar (X) */
+.close-modal-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: #999;
+    cursor: pointer;
+    z-index: 10;
+}
+.close-modal-btn:hover { color: #333; }
+
+/* Área de Rolagem dos Complementos */
+.complements-scroll-area {
+    /* Layout Flexível */
+    flex-grow: 1; /* Faz esta área ocupar TODO o espaço vertical disponível */
+    
+    /* Scroll e Correção */
+    overflow-y: auto; /* Adiciona scroll APENAS aqui quando necessário */
+    min-height: 0; /* Correção crítica para o flexbox permitir o scroll */
+    text-align: left;
+    padding: 0 10px;
+}
+
+/* Ações do Modal de Complementos (Botões) */
+.complement-modal-actions {
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    background-color: #ffffff;
+    
+    /* Layout Flexível */
+    flex-shrink: 0; /* Impede que esta área encolha */
+    
+    /* Alinhamento dos botões */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    
+    /* Controle de visibilidade (seu JS está correto) */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.complement-modal-actions.is-scrolled-to-bottom {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.confirm-complement-btn,
+.cancel-complement-btn {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.confirm-complement-btn {
+    background-color: #2ecb70;
+    color: white;
+    box-shadow: 0 4px 8px rgba(46, 203, 112, 0.3);
+}
+.confirm-complement-btn:hover {
+    background-color: #28b563;
+    transform: translateY(-2px);
+}
+
+.cancel-complement-btn {
+    background-color: #ffc107;
+    color: #333;
+    box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
+}
+.cancel-complement-btn:hover {
+    background-color: #e0a800;
+    transform: translateY(-2px);
+}
+
+/***** FIM DA SEÇÃO DO MODAL *****/
+
+/* Media Queries para Mobile */
+/* Media Queries para Mobile - MODAL REDUZIDO */
+@media (max-width: 600px) {
+    .floating-cart-btn {
+        bottom: 100px;
+        width: 55px;
+        height: 55px;
+    }
+    /* Modal com largura e altura máximas em celulares */
+      #complements-modal-content {
+        width: 90%;
+        border-radius: 12px;
+        padding: 20px;
+        display: flex; /* Mantém o flexbox */
+        flex-direction: column; /* Mantém a direção em coluna */
+
+        /* A MUDANÇA PRINCIPAL: */
+        height: auto; /* A altura será automática, baseada no conteúdo */
+        max-height: 85vh; /* Limita a altura a 85% da altura da tela */
+    }
+
+    /* AJUSTE AQUI: A área de rolagem */
+    .complements-scroll-area {
+        overflow-y: auto; /* Adiciona scroll APENAS se o conteúdo estourar o max-height */
+        padding-top: 35px;
+        
+        /* A propriedade flex-grow: 1 foi removida para não criar espaço extra */
+    }
+    .modal-cart-actions {
+        margin: 20px 0 10px; /* Reduz um pouco a margem inferior */
+    }
+}
+
+.modal-action-btn {
+    width: 100%;
+    padding: 15px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.modal-action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+/* Botão Verde "Enviar Pedido" */
+.modal-action-btn.confirm-order {
+    background-color: #2ecb70;
+    color: white;
+}
+.modal-action-btn.confirm-order:hover {
+    background-color: #28b563;
+}
+
+
+/* Botão "Selecionar mais itens" (estilo secundário) */
+.modal-action-btn.continue-shopping {
+    background-color: #fff;
+    color: #51125e;
+    border: 2px solid #51125e;
+}
+.modal-action-btn.continue-shopping:hover {
+    background-color: #f5f0ff;
+}
+
+/* Ajusta o botão de limpar para ser menos proeminente */
+.modal-clear-cart-btn {
+    background: none;
+    border: none;
+    color: #999;
+    text-decoration: underline;
+    font-size: 0.9rem;
+    box-shadow: none;
+    margin-top: 10px;
+}
+.modal-clear-cart-btn:hover {
+    color: #dc3545;
+    background-color: transparent;
+    transform: none;
+}
+/* --- Efeito de Destaque para Validação de Campos --- */
+.highlight-error {
+  border: 2px solid #e74c3c !important; /* Borda vermelha forte */
+  box-shadow: 0 0 10px rgba(231, 76, 60, 0.5) !important; /* Sombra vermelha */
+  transition: all 0.3s ease-in-out;
+  transform: scale(1.02); /* Leve aumento para chamar atenção */
+}
+body.modal-open {
+  overflow: hidden;
+}
+#mobile-banner {
+  display: none;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: #fff; /* cor de fundo para prevenir transparência */
+  text-align: center;
+}
+
+#mobile-banner img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Mostrar apenas em dispositivos móveis */
+@media (max-width: 768px) {
+  #mobile-banner {
+    display: block;
+  }
+}
+.form-section {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 25px 30px;
+  margin-top: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Estiliza o título "Seu nome" dentro da nova caixa */
+.form-section h3 {
+  color: #51125e; /* Cor roxa da sua marca */
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Novo visual para o campo de digitar o nome */
+#customer-name {
+  background-color: #f5f3ff; /* Fundo lavanda bem claro */
+  border: 2px solid transparent; /* Borda inicial transparente */
+  border-radius: 12px;
+  padding: 15px;
+  width: 100%;
+  font-size: 1.1rem;
+  color: #333;
+  text-align: left; /* Melhor para digitar nomes */
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+}
+
+/* Estilo para o texto 'Digite seu nome' */
+#customer-name::placeholder {
+  color: #999;
+}
+
+/* Efeito roxo ao clicar no campo (mantendo e melhorando o que você já tinha) */
+#customer-name:focus {
+  background-color: #ffffff;
+  border-color: #8c2ca7; /* Borda roxa bonita */
+  box-shadow: 0 0 0 4px rgba(140, 44, 167, 0.15); /* Sombra externa roxa */
+  outline: none;
+}
+/* Adicione estas regras ao seu styles.css */
+
+.search-complement-wrapper {
+  position: relative; /* Para posicionar o ícone dentro */
+  margin: 20px auto; /* Centraliza a caixa de busca e adiciona margem */
+  width: 90%; /* Largura do campo de busca */
+  max-width: 400px; /* Limita a largura em telas maiores */
+}
+
+#complement-search-input {
+  width: 100%;
+  padding: 12px 40px 12px 15px; /* Espaço para o texto e para o ícone */
+  border: 1px solid #ccc;
+  border-radius: 25px; /* Bordas mais arredondadas */
+  font-size: 1rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+
+#complement-search-input::placeholder {
+  color: #999;
+}
+
+#complement-search-input:focus {
+  border-color: #8c2ca7;
+  box-shadow: 0 0 0 3px rgba(140, 44, 167, 0.1);
+  outline: none;
+}
+
+.search-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  pointer-events: none; /* Garante que o ícone não interfira com o input */
+}
+
+/* Ajuste no layout do modal para acomodar a barra de pesquisa */
+#complements-modal-content {
+  /* Mantenha suas regras existentes, apenas certifique-se que o padding superior ou margem inferior
+    do h3 não esteja conflitando. */
+  padding-top: 20px; /* Garante espaço no topo */
+}
+
+.complements-scroll-area {
+  /* Pode precisar ajustar o padding-top aqui se o campo de busca estiver muito próximo */
+  padding-top: 15px; /* Garante um bom espaçamento entre a busca e as categorias */
+}
+
+/* --- Novos estilos para a seção de escolha de pagamento principal --- */
+#main-payment-choice-section {
+    margin-top: 20px;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    text-align: center;
+}
+
+.payment-mode-group {
+    margin-bottom: 25px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    background-color: #f9f9f9; /* Um fundo leve para agrupar */
+}
+
+.payment-mode-group:last-child {
+    margin-bottom: 0;
+}
+
+.payment-mode-group h4 {
+    font-size: 1.3em;
+    color: #51125e;
+    margin-top: 0; /* Remove margem superior padrão do h4 */
+    margin-bottom: 10px;
+}
+
+.payment-mode-description {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.divider {
+    font-weight: bold;
+    color: #888;
+    margin: 25px 0;
+    text-transform: uppercase;
+    position: relative;
+    text-align: center;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background-color: #ddd;
+}
+
+.divider::before {
+    left: 0;
+}
+
+.divider::after {
+    right: 0;
+}
+
+/* Garante que o card selecionado seja diferente */
+.payment-card.selected {
+    border-color: #2ecb70; /* Verde para seleção */
+    background-color: #e6ffe6; /* Fundo verde claro */
+    color: #28a745; /* Texto verde */
+    box-shadow: 0 4px 8px rgba(46, 203, 112, 0.3);
+}
+
+/* Pequeno ajuste para os radios ocultos dentro da nova estrutura */
+#main-payment-choice-section input[name="payment"] {
+    position: absolute; /* Mantenha-os ocultos */
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
