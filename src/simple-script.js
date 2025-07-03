@@ -47,7 +47,6 @@ const complements = {
 
 let selectedProduct = null;
 let selectedComplements = new Set();
-// O carrinho agora será persistido no localStorage
 let cart = JSON.parse(localStorage.getItem('cart')) || []; 
 let complementsScrollListener = null;
 
@@ -74,7 +73,6 @@ function toggleModal(modalId, show) {
 
 // --- FUNÇÕES DO MODAL DO CARRINHO ---
 function openCartModal() {
-    // Garante que o modal do carrinho seja sempre renderizado ao abrir
     renderModalCart(); 
     toggleModal('cart-modal-overlay', true);
 }
@@ -227,7 +225,6 @@ function updateCartCount() {
     const cartCountEl = document.getElementById('cart-count');
     if (cartCountEl) {
         cartCountEl.innerText = cart.length;
-        // Sempre exibe o contador se houver itens no carrinho
         cartCountEl.style.display = cart.length > 0 ? 'flex' : 'none'; 
     }
 }
@@ -238,7 +235,7 @@ function updateModalTotal() {
     let total = 0;
     cart.forEach(item => {
         const product = products[item.productId];
-        if (product) { // Adicionado verificação de produto existente
+        if (product) { 
             total += product.price;
             item.complements.forEach(id => {
                 if (complements[id]) {
@@ -253,16 +250,14 @@ function updateModalTotal() {
 }
 
 function renderCart() {
-    // Esta função agora apenas chama validateOrder para reavaliar o botão
-    // e updateCartCount para manter o contador atualizado.
-    validateOrder(false); // Chamada silenciosa
+    validateOrder(false); 
     updateCartCount();
 }
 
 function renderModalCart() {
     const list = document.getElementById('cart-modal-list');
     if (!list) return;
-    list.innerHTML = ""; // Limpa a lista antes de renderizar
+    list.innerHTML = ""; 
 
     if (cart.length === 0) {
         const li = document.createElement('li');
@@ -273,11 +268,11 @@ function renderModalCart() {
         li.style.borderBottom = "none";
         list.appendChild(li);
     } else {
-        cart.forEach((item, index) => { // Adicionado 'index' para o botão de remover
+        cart.forEach((item, index) => {
             const product = products[item.productId];
-            if (!product) { // Proteção contra produto não encontrado
+            if (!product) { 
                 console.error("Produto no carrinho não encontrado na lista de produtos:", item.productId);
-                return; // Pula este item se não for encontrado
+                return; 
             }
             const complementNames = item.complements.map(id => complements[id]?.name).filter(Boolean).join(", ");
             const li = document.createElement('li');
@@ -297,12 +292,12 @@ function renderModalCart() {
 
 // --- FUNÇÃO PARA REMOVER ITEM DO CARRINHO ---
 function removeItemFromCart(index) {
-    cart.splice(index, 1); // Remove 1 item a partir do 'index'
-    saveCart(); // Salva o carrinho atualizado
-    updateTotal(); // Recalcula o total
-    updateCartCount(); // Atualiza o contador do carrinho
-    renderModalCart(); // Re-renderiza o modal do carrinho
-    validateOrder(false); // Revalida o estado do botão "Enviar Pedido" (silencioso)
+    cart.splice(index, 1);
+    saveCart();
+    updateTotal();
+    updateCartCount();
+    renderModalCart();
+    validateOrder(false);
 }
 
 
@@ -319,7 +314,7 @@ function updateTotal() {
             });
         }
     });
-    if (selectedProduct) { // Se um produto está no processo de seleção de complementos (no modal de complementos)
+    if (selectedProduct) { 
         const product = products[selectedProduct];
         if (product) {
             currentTotal += product.price;
@@ -334,10 +329,6 @@ function updateTotal() {
     if (document.getElementById('delivery-checkbox').checked) {
         currentTotal += 2;
     }
-    
-    // A taxa de cartão (+R$ 1,00) só será adicionada no momento de enviar o pedido
-    // para a mensagem ou para o Mercado Pago. NÃO afeta o total exibido aqui,
-    // para que o total geral seja sempre o dos produtos + entrega (se houver).
     
     document.getElementById('total-price').textContent = `R$ ${currentTotal.toFixed(2).replace('.', ',')}`;
 }
@@ -367,7 +358,7 @@ function handleDeliveryChange(el) {
         }
     }
     updateTotal();
-    validateOrder(false); // Chamada silenciosa
+    validateOrder(false);
 }
 
 function handlePickupChange(el) {
@@ -379,42 +370,34 @@ function handlePickupChange(el) {
         }
     }
     updateTotal();
-    validateOrder(false); // Chamada silenciosa
+    validateOrder(false);
 }
 
 function selectPaymentMethod(method) {
-    // Remove a classe 'selected' de todos os payment-card
     document.querySelectorAll('.payment-card').forEach(el => {
         el.classList.remove('selected');
     });
 
-    // Adiciona a classe 'selected' apenas ao card clicado
     const clickedCard = document.querySelector(`.payment-card[data-method="${method}"]`);
     if (clickedCard) {
         clickedCard.classList.add('selected');
     }
 
-    // Marca o rádio oculto correspondente
     document.querySelectorAll('input[name="payment"]').forEach(input => {
         input.checked = input.value === method;
     });
 
-    // Mostra/oculta seção de troco
     document.getElementById("troco-section").style.display = method === "whatsapp-especie" ? "block" : "none";
     updateTotal();
-    validateOrder(false); // Chamada silenciosa
+    validateOrder(false);
 }
 
 // --- FUNÇÕES DE VALIDAÇÃO E DESTAQUE ---
 function highlightField(elementId) {
     const element = document.getElementById(elementId);
     if (element) {
-        // Se for um checkbox ou radio, podemos destacar o elemento pai (label ou div)
-        // para melhor visualização.
         if (element.type === 'checkbox' || element.type === 'radio') {
-            // Tenta pegar a label associada ao input para aplicar o destaque
             const parentLabel = document.querySelector(`label[for="${elementId}"]`);
-            // Se não tiver label direta, procura o contêiner mais próximo que envolve o grupo
             const parentDiv = element.closest('.payment-options') || element.closest('.delivery-options-wrapper') || element.closest('.payment-mode-group') || element.closest('#main-payment-choice-section');
             
             if (parentLabel) {
@@ -427,101 +410,129 @@ function highlightField(elementId) {
                  parentDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         } else {
-            // Para inputs de texto e outros elementos, aplica direto no elemento
             element.classList.add('highlight-error');
             setTimeout(() => element.classList.remove('highlight-error'), 2500);
             element.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
         
-        closeCartModal(); // Fecha o modal para mostrar o campo na página principal
+        closeCartModal();
     }
 }
 
 
-function validateOrder(shouldHighlight = false) { // Adicionado parâmetro shouldHighlight
+function validateOrder(shouldHighlight = false) { 
     const confirmBtn = document.getElementById('confirm-all-btn');
     if (!confirmBtn) return false;
 
-    // 1. Carrinho não pode estar vazio
     if (cart.length === 0) {
         confirmBtn.disabled = true;
-        if (shouldHighlight) { // Só alerta se shouldHighlight for true
+        if (shouldHighlight) { 
             alert("Seu carrinho está vazio! Por favor, adicione itens ao pedido.");
         }
         return false;
     }
 
-    // 2. Nome do cliente precisa ser preenchido
     if (!document.getElementById('customer-name').value.trim()) {
         confirmBtn.disabled = true;
-        if (shouldHighlight) { // Só alerta se shouldHighlight for true
+        if (shouldHighlight) { 
             alert("Por favor, digite seu nome completo para o pedido.");
             highlightField('customer-name');
         }
         return false;
     }
 
-    // 3. Uma opção de entrega/retirada precisa ser selecionada
     const isDelivery = document.getElementById('delivery-checkbox').checked;
     const isPickup = document.getElementById('pickup-checkbox').checked;
     if (!isDelivery && !isPickup) {
         confirmBtn.disabled = true;
-        if (shouldHighlight) { // Só alerta se shouldHighlight for true
+        if (shouldHighlight) { 
             alert("Por favor, selecione uma opção de entrega ou retirada para o seu pedido.");
-            highlightField('delivery-checkbox'); // Destaca o checkbox ou sua label/container
+            highlightField('delivery-checkbox');
         }
         return false;
     }
 
-    // 4. Se for entrega, o endereço precisa ser preenchido
     if (isDelivery && !document.getElementById('delivery-address')?.value.trim()) {
         confirmBtn.disabled = true;
-        if (shouldHighlight) { // Só alerta se shouldHighlight for true
+        if (shouldHighlight) { 
             alert("Por favor, preencha o endereço de entrega para que possamos levar seu pedido.");
             highlightField('delivery-address');
         }
         return false;
     }
 
-    // 5. Uma forma de pagamento precisa ser selecionada
     const paymentMethod = document.querySelector('input[name="payment"]:checked');
     if (!paymentMethod) {
         confirmBtn.disabled = true;
-        if (shouldHighlight) { // Só alerta se shouldHighlight for true
+        if (shouldHighlight) { 
             alert("Por favor, selecione uma forma de pagamento.");
-            highlightField('main-payment-choice-section'); // Destaca a seção principal de pagamento
+            highlightField('main-payment-choice-section');
         }
         return false;
     }
 
-    // 6. Validação de troco para pagamento em dinheiro via WhatsApp
     if (paymentMethod.value === 'whatsapp-especie') {
         const trocoInput = document.getElementById('troco-value');
         const trocoValue = parseFloat(trocoInput.value.replace(',', '.'));
         
-        // A seção de troco estará visível se o "Dinheiro via WhatsApp" for selecionado
-        // Então, se o campo de troco está vazio ou com valor inválido
         if (trocoInput.offsetParent !== null && (isNaN(trocoValue) || trocoValue <= 0)) {
             confirmBtn.disabled = true;
-            if (shouldHighlight) { // Só alerta se shouldHighlight for true
+            if (shouldHighlight) { 
                 alert("Para pagamento em dinheiro, por favor, informe um valor válido e maior que zero para o troco.");
                 highlightField('troco-value');
             }
             return false;
         }
-        // A validação de 'troco menor que total' é mais crítica e é feita no confirmAllOrders para alertar o usuário.
     }
     
-    // Se todas as validações passarem, habilita o botão
     confirmBtn.disabled = false;
     return true;
 }
 
+// --- FUNÇÕES DO MODAL PIX ---
+function openPixModal(qrCodeBase64, pixCodeText) {
+    const qrCodeImg = document.getElementById('pix-qr-code-img');
+    const pixCodeSpan = document.getElementById('pix-copy-code-text');
+
+    if (qrCodeImg && pixCodeSpan) {
+        qrCodeImg.src = `data:image/png;base64,${qrCodeBase64}`;
+        pixCodeSpan.textContent = pixCodeText;
+        toggleModal('pix-modal-overlay', true);
+    } else {
+        alert("Erro ao exibir QR Code Pix. Tente novamente.");
+    }
+}
+
+function closePixModal() {
+    toggleModal('pix-modal-overlay', false);
+    // Opcional: Limpar a imagem e o texto do QR Code ao fechar, para não exibir Pix antigo
+    const qrCodeImg = document.getElementById('pix-qr-code-img');
+    const pixCodeSpan = document.getElementById('pix-copy-code-text');
+    if (qrCodeImg) qrCodeImg.src = '';
+    if (pixCodeSpan) pixCodeSpan.textContent = '';
+    
+    // Você NÃO LIMPA O CARRINHO AQUI. 
+    // O carrinho é limpo APENAS quando o webhook do Mercado Pago confirmar o pagamento para o seu backend.
+    // O cliente pode fechar o modal, mas o pedido ainda está pendente de pagamento.
+}
+
+function copyPixCode() {
+    const pixCodeText = document.getElementById('pix-copy-code-text').textContent;
+    navigator.clipboard.writeText(pixCodeText)
+        .then(() => {
+            alert('Código Pix copiado para a área de transferência!');
+        })
+        .catch(err => {
+            console.error('Erro ao copiar código Pix:', err);
+            alert('Não foi possível copiar o código Pix automaticamente. Por favor, selecione e copie manualmente.');
+        });
+}
+
+
 // --- FUNÇÃO FINAL DE CONFIRMAÇÃO ---
 function confirmAllOrders() {
-    // Agora, passamos 'true' para shouldHighlight para que a validação mostre os alertas e flashes
     if (!validateOrder(true)) { 
-        return; // Se a validação falhar, a função já terá alertado e destacado o campo
+        return; 
     }
 
     const nome = document.getElementById('customer-name').value.trim();
@@ -530,9 +541,9 @@ function confirmAllOrders() {
     
     cart.forEach((item, i) => {
         const prod = products[item.productId];
-        if (!prod) { // Proteção extra, embora já verificada ao adicionar ao carrinho
+        if (!prod) { 
             console.error("Produto inválido no carrinho detectado ao enviar:", item.productId);
-            return; // Pula este item para não quebrar a mensagem
+            return; 
         }
         msg += `🍧 *Açaí ${i + 1}:* ${prod.name} - R$ ${prod.price.toFixed(2).replace('.', ',')}\n`;
         totalCalculadoParaMensagem += prod.price;
@@ -547,7 +558,7 @@ function confirmAllOrders() {
         if (cats.gratis.length) msg += `*Complementos:* ${cats.gratis.join(", ")}\n`;
         if (cats.cobertura.length) msg += `*Cobertura:* ${cats.cobertura.join(", ")}\n`;
         if (cats.adicional.length) msg += `*Adicionais Pagos:* ${cats.adicional.join(", ")}\n`;
-        if (cats.creme.length) msg += `*Cremes:* ${cats.creme.join(", ")}\n`;
+        if (cats.creme.length) msg += `*Cremes:* ${cats.cremes.join(", ")}\n`; // Cuidado aqui, era cats.creme
         msg += "\n";
     });
 
@@ -575,11 +586,10 @@ function confirmAllOrders() {
             const trocoInput = document.getElementById('troco-value');
             const trocoParaValor = parseFloat(trocoInput.value.replace(',', '.'));
             
-            // Revalidação CRÍTICA do troco no momento do envio final
             if (trocoInput.offsetParent !== null && (isNaN(trocoParaValor) || trocoParaValor < totalCalculadoParaMensagem)) {
                 alert(`Para pagamento em dinheiro, o valor para troco (R$ ${trocoParaValor.toFixed(2).replace('.', ',')}) não pode ser menor que o total do pedido (R$ ${totalCalculadoParaMensagem.toFixed(2).replace('.', ',')}). Por favor, ajuste o valor.`);
-                highlightField('troco-value'); // Destaca o campo novamente
-                return; // Impede o envio do pedido
+                highlightField('troco-value');
+                return;
             }
 
             if (trocoInput.value) { 
@@ -591,80 +601,79 @@ function confirmAllOrders() {
             }
         } else if (methodType === 'cartao') {
             msg += `💳 *Forma de Pagamento:* Cartão (+R$ 1,00) (Combinar via WhatsApp)\n`;
-            totalCalculadoParaMensagem += 1; // Adiciona taxa de cartão para a mensagem
+            totalCalculadoParaMensagem += 1;
         }
         
         msg += `\n🧾 *Total Geral:* R$ ${totalCalculadoParaMensagem.toFixed(2).replace('.', ',')}`;
         msg += `\n\n_Finalizaremos o pagamento e a entrega pelo WhatsApp._`;
 
-        const num = "558699127297"; // SEU NÚMERO DE TELEFONE AQUI COM DDI (55) E DDD (86)
+        const num = "558699127297"; 
         const whatsappUrl = `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
         window.open(whatsappUrl, "_blank");
         alert('Pedido enviado para o WhatsApp! Aguarde nossa resposta para confirmar e combinar o pagamento.');
         
-        clearCart(); // Limpa o carrinho e reseta o formulário
+        clearCart(); 
         closeCartModal();
 
     } else if (paymentMethodValue === 'online-pix') {
-        msg += `💰 *Forma de Pagamento:* Pix (Online - Mercado Pago)\n`;
-        msg += `\n🧾 *Total a Pagar:* R$ ${totalCalculadoParaMensagem.toFixed(2).replace('.', ',')}`;
+        const backendUrl = 'https://SEU_DOMINIO_BACKEND_RENDER.onrender.com'; // **ATENÇÃO: SUBSTITUA PELA SUA URL REAL DO BACKEND NO RENDER**
         
-        alert(`Iniciando pagamento online via Pix do Mercado Pago para o valor de R$ ${totalCalculadoParaMensagem.toFixed(2).replace('.', ',')}.`);
-        
-        // --- AQUI É ONDE VOCÊ INTEGRARIA SEU BACKEND COM O MERCADO PAGO ---
-        // Você precisaria enviar os dados do pedido (itens do carrinho, total, nome, endereço, etc.)
-        // para o seu servidor (backend) via uma requisição AJAX (fetch/axios).
-        // Exemplo conceitual (precisa de backend):
-        // const orderData = {
-        //     customerName: nome,
-        //     cartItems: cart.map(item => ({
-        //         productId: item.productId,
-        //         productName: products[item.productId].name,
-        //         productPrice: products[item.productId].price,
-        //         complements: item.complements.map(comp_id => ({
-        //             id: comp_id,
-        //             name: complements[comp_id].name,
-        //             price: complements[comp_id].price
-        //         }))
-        //     })),
-        //     delivery: isDelivery ? { address: document.getElementById('delivery-address').value.trim(), cost: 2 } : { type: 'pickup' },
-        //     paymentMethod: 'pix_mercadopago',
-        //     totalAmount: totalCalculadoParaMensagem
-        // };
+        // Dados do pedido para enviar ao backend
+        const orderData = {
+            customerName: nome,
+            // É importante passar os itens do carrinho e outros detalhes que o backend precisa
+            cartItems: cart.map(item => ({
+                productId: item.productId,
+                productName: products[item.productId]?.name || 'Item Desconhecido', // Fallback para nome
+                productPrice: products[item.productId]?.price || 0,
+                // Inclua complementos com nomes e preços para a descrição do item no MP
+                complements: item.complements.map(comp_id => ({
+                    id: comp_id,
+                    name: complements[comp_id]?.name || 'Comp. Desconhecido',
+                    price: complements[comp_id]?.price || 0
+                }))
+            })),
+            delivery: isDelivery ? { address: document.getElementById('delivery-address').value.trim(), cost: 2 } : { type: 'pickup' },
+            totalAmount: totalCalculadoParaMensagem,
+            externalReference: "PEDIDO_" + Date.now() // Um ID único para seu pedido
+        };
 
-        // fetch('/api/create-mercadopago-pix', { // URL do seu endpoint de backend
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify(orderData),
-        // })
-        // .then(response => response.json())
-        // .then(data => {
-        //     if (data.status === 'success' && data.qr_code && data.copy_paste_code) {
-        //         // Exibir o QR Code e o código Copia e Cola para o usuário em um modal ou na página
-        //         alert('QR Code Pix gerado! Escaneie para pagar ou copie o código.');
-        //         // Exemplo: showPixModal(data.qr_code, data.copy_paste_code);
-        //         // IMPORTANTE: NÃO LIMPAR O CARRINHO AQUI. Limpe apenas APÓS o webhook do Mercado Pago
-        //         // notificar seu backend que o pagamento foi APROVADO.
-        //     } else {
-        //         alert('Erro ao gerar Pix do Mercado Pago: ' + (data.message || 'Erro desconhecido. Por favor, tente novamente ou escolha pagar pelo WhatsApp.'));
-        //     }
-        // })
-        // .catch(error => {
-        //     console.error('Erro na requisição para o backend:', error);
-        //     alert('Ocorreu um erro ao processar seu pagamento online. Tente novamente ou escolha pagar pelo WhatsApp.');
-        // });
+        alert(`Preparando o Pix para o valor de R$ ${totalCalculadoParaMensagem.toFixed(2).replace('.', ',')}.`);
         
-        // Temporariamente, apenas um alerta para indicar o fluxo
-        // NÃO clearCart() AQUI, POIS O PAGAMENTO ONLINE AINDA NÃO FOI CONFIRMADO.
+        fetch(`${backendUrl}/create-mercadopago-pix`, { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(orderData),
+        })
+        .then(response => {
+            if (!response.ok) {
+                // Lidar com erros de HTTP (ex: 400, 500)
+                return response.json().then(err => Promise.reject(err));
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.status === 'success' && data.qr_code_base64 && data.qr_code) {
+                // Exibir o QR Code e o código Copia e Cola em um modal NO SEU PRÓPRIO SITE
+                openPixModal(data.qr_code_base64, data.qr_code);
+                // Não limpar o carrinho aqui. A limpeza deve ser feita pelo webhook.
+            } else {
+                alert('Erro ao gerar Pix do Mercado Pago: ' + (data.message || 'Erro desconhecido. Por favor, tente novamente ou escolha pagar pelo WhatsApp.'));
+            }
+        })
+        .catch(error => {
+            console.error('Erro na requisição para o backend:', error);
+            alert('Ocorreu um erro ao processar seu pagamento online. Tente novamente ou escolha pagar pelo WhatsApp. Detalhes: ' + (error.message || JSON.stringify(error)));
+        });
     }
 }
 
 // --- FUNÇÃO LIMPAR TUDO ---
 function clearCart() {
-    cart.length = 0; // Zera o array do carrinho
-    saveCart(); // Salva o estado vazio no localStorage
+    cart.length = 0;
+    saveCart();
     
     const addressInput = document.getElementById('delivery-address');
     if (addressInput) addressInput.value = '';
@@ -673,14 +682,12 @@ function clearCart() {
     const addressSection = document.getElementById('delivery-address-section');
     if (addressSection) addressSection.style.display = 'none';
     
-    // Limpa a seleção de qualquer método de pagamento e oculta o troco
     document.querySelectorAll('input[name="payment"]').forEach(input => input.checked = false);
     document.querySelectorAll('.payment-card').forEach(card => card.classList.remove('selected'));
     document.getElementById("troco-section").style.display = 'none';
     document.getElementById("troco-value").value = '';
     document.getElementById('customer-name').value = '';
     
-    // Assegura que o botão de enviar pedido esteja desabilitado após limpar
     const confirmBtn = document.getElementById("confirm-all-btn");
     if (confirmBtn) {
         confirmBtn.disabled = true;
@@ -688,8 +695,9 @@ function clearCart() {
 
     updateTotal();
     updateCartCount();
-    renderModalCart(); // Re-renderiza o modal do carrinho para mostrar que está vazio
+    renderModalCart();
     closeCartModal();
+    closePixModal(); // Fecha também o modal do Pix, caso estivesse aberto
 }
 
 // --- NOVO: FUNÇÃO DE PESQUISA DE COMPLEMENTOS ---
@@ -728,20 +736,19 @@ function filterComplements() {
 
 // --- INICIALIZAÇÃO AO CARREGAR A PÁGINA ---
 document.addEventListener('DOMContentLoaded', () => {
-    // Carrega o carrinho do localStorage ao iniciar
     cart = JSON.parse(localStorage.getItem('cart')) || []; 
     
-    updateTotal(); // Atualiza o total exibido
-    updateCartCount(); // Atualiza o contador flutuante do carrinho
-    validateOrder(false); // Roda a validação inicial para definir o estado do botão "Enviar Pedido" (SILENCIOSO)
-    closeCartModal(); // Garante que o modal do carrinho esteja fechado no carregamento
-    closeComplementsModal(); // Garante que o modal de complementos esteja fechado
+    updateTotal();
+    updateCartCount();
+    validateOrder(false); 
+    closeCartModal();
+    closeComplementsModal();
+    closePixModal(); // Garante que o modal do Pix esteja fechado no carregamento
 
-    // Adiciona listeners para fechar modais ao clicar fora
     const cartModalOverlay = document.getElementById('cart-modal-overlay');
     if (cartModalOverlay) {
         cartModalOverlay.addEventListener('click', function (event) {
-            if (event.target === cartModalOverlay) { // Clicou no overlay, não no conteúdo
+            if (event.target === cartModalOverlay) { 
                 closeCartModal();
             }
         });
@@ -749,18 +756,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const complementsModalOverlay = document.getElementById('complements-modal-overlay');
     if (complementsModalOverlay) {
         complementsModalOverlay.addEventListener('click', function (event) {
-            if (event.target === complementsModalOverlay) { // Clicou no overlay, não no conteúdo
+            if (event.target === complementsModalOverlay) { 
                 cancelComplementsSelection();
             }
         });
     }
-    // Adiciona listeners para revalidar ao digitar/mudar campos importantes (SILENCIOSO)
+    // Adiciona listener para o modal Pix também
+    const pixModalOverlay = document.getElementById('pix-modal-overlay');
+    if (pixModalOverlay) {
+        pixModalOverlay.addEventListener('click', function (event) {
+            if (event.target === pixModalOverlay) {
+                closePixModal();
+            }
+        });
+    }
+
     document.getElementById('customer-name')?.addEventListener('input', () => validateOrder(false));
     document.getElementById('troco-value')?.addEventListener('input', () => validateOrder(false));
     document.getElementById('delivery-checkbox')?.addEventListener('change', () => validateOrder(false));
     document.getElementById('pickup-checkbox')?.addEventListener('change', () => validateOrder(false));
 
-    // Adiciona listeners para os cliques nos payment-cards para garantir que validateOrder seja chamado (SILENCIOSO)
     document.querySelectorAll('.payment-card').forEach(card => {
         card.addEventListener('click', () => {
             validateOrder(false);
