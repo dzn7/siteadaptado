@@ -253,7 +253,7 @@ function updateModalTotal() {
     modalTotalEl.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
 }
 
-function renderCart() { // Função renderCart não é mais usada para renderizar a lista, apenas para validação e contagem
+function renderCart() {
     validateOrder(false);
     updateCartCount();
 }
@@ -278,7 +278,6 @@ function renderModalCart() {
                 console.error("Produto no carrinho não encontrado na lista de produtos:", item.productId);
                 return;
             }
-            // Pega o nome dos complementos do objeto global 'complements'
             const complementNames = item.complements.map(id => complements[id]?.name).filter(Boolean).join(", ");
             const li = document.createElement('li');
             li.innerHTML = `
@@ -512,7 +511,7 @@ async function confirmAllOrders() {
             complements: item.complements.map(comp_id => ({
                 id: comp_id,
                 name: complements[comp_id]?.name,
-                price: complements[comp_id]?.price
+                price: complements[comp_id]?.price // <-- ADICIONADO: Garante que o preço do complemento seja enviado
             }))
         })),
         total: totalPrice,
@@ -532,7 +531,6 @@ async function confirmAllOrders() {
         orderDetails.items.forEach((item, i) => {
             whatsappMessage += `🍧 *Açaí ${i + 1}:* ${item.name} - R$ ${item.price.toFixed(2).replace('.', ',')}\n`;
             totalCalculadoParaMensagem += item.price;
-            // Garante que só pegue complementos com nome
             const itemComplements = item.complements.filter(c => c.name);
             if (itemComplements.length) {
                 whatsappMessage += `  _Complementos:_ ${itemComplements.map(c => c.name).join(", ")}\n`;
