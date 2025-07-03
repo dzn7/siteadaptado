@@ -376,50 +376,85 @@ function handlePickupChange(el) {
     validateOrder(false);
 }
 
+// src/simple-script.js
+
+// ... (seus objetos products e complements e outras funções existentes) ...
+
 function selectPaymentMethod(method) {
+    // Remove a classe 'selected' de todos os payment-card
     document.querySelectorAll('.payment-card').forEach(el => {
         el.classList.remove('selected');
     });
 
+    // Adiciona a classe 'selected' apenas ao card clicado
     const clickedCard = document.querySelector(`.payment-card[data-method="${method}"]`);
     if (clickedCard) {
         clickedCard.classList.add('selected');
     }
 
+    // Marca o rádio oculto correspondente
     document.querySelectorAll('input[name="payment"]').forEach(input => {
         input.checked = input.value === method;
     });
 
+    // Mostra/oculta seção de troco
     document.getElementById("troco-section").style.display = method === "whatsapp-especie" ? "block" : "none";
-    updateTotal();
-    validateOrder(false);
-}
 
-// --- FUNÇÕES DE VALIDAÇÃO E DESTAQUE DE CAMPOS ---
-function highlightField(elementId) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        if (element.type === 'checkbox' || element.type === 'radio') {
-            const parentLabel = document.querySelector(`label[for="${elementId}"]`);
-            const parentDiv = element.closest('.payment-options') || element.closest('.delivery-options-wrapper') || element.closest('.payment-mode-group') || element.closest('#main-payment-choice-section');
-
-            if (parentLabel) {
-                parentLabel.classList.add('highlight-error');
-                setTimeout(() => parentLabel.classList.remove('highlight-error'), 2500);
-                parentLabel.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            } else if (parentDiv) {
-                parentDiv.classList.add('highlight-error');
-                setTimeout(() => parentDiv.classList.remove('highlight-error'), 2500);
-                parentDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
+    // --- MUDANÇA AQUI: Lógica para mostrar/ocultar campos de email/telefone ---
+    const emailPhoneSection = document.getElementById('email-phone-fields');
+    if (emailPhoneSection) {
+        if (method === 'online-pix') {
+            emailPhoneSection.style.display = 'block'; // Mostra os campos
         } else {
-            element.classList.add('highlight-error');
-            setTimeout(() => element.classList.remove('highlight-error'), 2500);
-            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            emailPhoneSection.style.display = 'none'; // Esconde os campos
+            // Limpa os campos quando eles são ocultados para evitar envio de dados antigos
+            document.getElementById('customer-email').value = '';
+            document.getElementById('customer-phone').value = '';
         }
-        closeCartModal();
     }
+    // --- FIM DA MUDANÇA ---
+
+    updateTotal();
+    validateOrder(false); // Revalida o estado do botão "Enviar Pedido"
 }
+
+// ... (todas as outras funções, incluindo validateOrder e confirmAllOrders que já foram atualizadas) ...
+
+
+// --- FUNÇÃO LIMPAR TUDO ---
+function clearCart() {
+    cart.length = 0;
+    saveCart();
+
+    const addressInput = document.getElementById('delivery-address');
+    if (addressInput) addressInput.value = '';
+    document.getElementById('delivery-checkbox').checked = false;
+    document.getElementById('pickup-checkbox').checked = false;
+    const addressSection = document.getElementById('delivery-address-section');
+    if (addressSection) addressSection.style.display = 'none';
+
+    document.querySelectorAll('input[name="payment"]').forEach(input => input.checked = false);
+    document.querySelectorAll('.payment-card').forEach(card => card.classList.remove('selected'));
+    document.getElementById("troco-section").style.display = 'none';
+    document.getElementById("troco-value").value = '';
+    document.getElementById('customer-name').value = '';
+    // --- MUDANÇA AQUI: Limpa email e telefone também ---
+    document.getElementById('customer-email').value = '';
+    document.getElementById('customer-phone').value = '';
+    // --- FIM DA MUDANÇA ---
+
+    const confirmBtn = document.getElementById("confirm-all-btn");
+    if (confirmBtn) {
+        confirmBtn.disabled = true;
+    }
+
+    updateTotal();
+    updateCartCount();
+    renderModalCart();
+    closeCartModal();
+}
+
+// ... (restante do seu simple-script.js) ...
 
 function validateOrder(shouldHighlight = false) {
     const confirmBtn = document.getElementById('confirm-all-btn');
@@ -459,6 +494,7 @@ function validateOrder(shouldHighlight = false) {
     // NOVO: Validação de telefone (se for exigir)
     const customerPhoneInput = document.getElementById('customer-phone');
     if (paymentMethod && paymentMethod.value === 'online-pix') { // Opcional: só validar se Pix online
+        // Valida se o campo existe e se não está vazio e se o pattern foi atendido
         if (!customerPhoneInput || !customerPhoneInput.value.trim() || !customerPhoneInput.checkValidity()) {
             confirmBtn.disabled = true;
             if (shouldHighlight) {
