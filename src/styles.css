@@ -887,18 +887,49 @@ body.modal-open {
 }
 
 /* Novo visual para o campo de digitar o nome */
-#customer-name {
-  background-color: #f5f3ff; /* Fundo lavanda bem claro */
-  border: 2px solid transparent; /* Borda inicial transparente */
-  border-radius: 12px;
-  padding: 15px;
-  width: 100%;
-  font-size: 1.1rem;
-  color: #333;
-  text-align: left; /* Melhor para digitar nomes */
-  font-family: 'Poppins', sans-serif;
-  transition: all 0.3s ease;
+#customer-name,
+#customer-email, /* ADICIONADO AQUI */
+#customer-phone /* ADICIONADO AQUI */
+{
+    background-color: #f5f3ff; /* Fundo lavanda bem claro */
+    border: 2px solid transparent; /* Borda inicial transparente */
+    border-radius: 12px;
+    padding: 15px;
+    width: 100%;
+    font-size: 1.1rem;
+    color: #333;
+    text-align: left;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease;
+    margin-bottom: 20px; /* Adiciona um espaçamento entre os campos */
 }
+
+/* Estilo para o texto 'Digite seu nome' etc. */
+#customer-name::placeholder,
+#customer-email::placeholder, /* ADICIONADO AQUI */
+#customer-phone::placeholder /* ADICIONADO AQUI */
+{
+    color: #999;
+}
+
+/* Efeito roxo ao clicar no campo */
+#customer-name:focus,
+#customer-email:focus, /* ADICIONADO AQUI */
+#customer-phone:focus /* ADICIONADO AQUI */
+{
+    background-color: #ffffff;
+    border-color: var(--color-primary); /* Borda roxa bonita */
+    box-shadow: 0 0 0 4px rgba(140, 44, 167, 0.15); /* Sombra externa roxa */
+    outline: none;
+}
+
+/* Esconder os campos de email e telefone por padrão */
+/* Adicione esta seção nova no seu CSS */
+.email-phone-section {
+    display: none; /* Esconde por padrão */
+    /* Você pode adicionar padding ou margin aqui se quiser que a seção tenha um fundo separado */
+}
+
 
 /* Estilo para o texto 'Digite seu nome' */
 #customer-name::placeholder {
