@@ -49,72 +49,73 @@ const complements = {
     creme_maracuja: { name: 'Maracujá', price: 2, category: 'creme' }
 };
 
+const YOUR_BACKEND_API_URL = "https://apihook.onrender.com/create-mercadopago-pix"; // <-- A URL da sua API de backend
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => { // Torna a função async
     const qrCodeImageElement = document.getElementById('qr-code-image');
     const pixCopiaEColaInput = document.getElementById('pix-copia-e-cola');
     const confirmationMessageElement = document.getElementById('confirmation-message');
     const jaPagueiBtn = document.getElementById('ja-paguei-btn');
 
-    // Recupera os dados do localStorage
-    const pixQrCodeDataString = localStorage.getItem('pixQrCodeData');
-    const orderConfirmationMessage = localStorage.getItem('orderConfirmationMessage');
-    const fullOrderDetailsString = localStorage.getItem('fullOrderDetails'); // Dados completos do pedido
+    jaPagueiBtn.addEventListener('click', jaPaguei); // Adiciona listener do botão
 
-    // Exibe a mensagem de confirmação
-    if (orderConfirmationMessage) {
-        confirmationMessageElement.innerText = orderConfirmationMessage;
-    }
+    // Inicia desabilitado até o QR code ser gerado ou dados carregados
+    jaPagueiBtn.disabled = true;
+    qrCodeImageElement.alt = "Gerando QR Code...";
+    pixCopiaEColaInput.value = "Gerando código...";
+    confirmationMessageElement.innerText = "Estamos gerando seu QR Code Pix. Aguarde um momento...";
 
-    // Exibe o QR Code e o código Copia e Cola
-    if (pixQrCodeDataString) {
+    // Recupera os detalhes completos do pedido do localStorage
+    const fullOrderDetailsString = localStorage.getItem('fullOrderDetails');
+
+    if (fullOrderDetailsString) {
         try {
-            const pixData = JSON.parse(pixQrCodeDataString);
+            const orderDetails = JSON.parse(fullOrderDetailsString);
 
-            if (pixData.image) {
-                qrCodeImageElement.src = pixData.image;
+            // Chama a API de backend para gerar o Pix
+            const response = await fetch(YOUR_BACKEND_API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(orderDetails) // Envia os detalhes do pedido
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || `Erro do servidor: ${response.statusText}`);
+            }
+
+            const data = await response.json(); // Resposta com qrCodeImage e pixCopiaECola
+
+            if (data.status === 'success' && data.qrCodeImage && data.pixCopiaECola) {
+                qrCodeImageElement.src = data.qrCodeImage;
                 qrCodeImageElement.alt = "QR Code Pix para Pagamento";
+                pixCopiaEColaInput.value = data.pixCopiaECola;
+                confirmationMessageElement.innerText = `Seu pedido de R$ ${orderDetails.total.toFixed(2).replace('.', ',')} foi gerado para pagamento Pix!`;
+                jaPagueiBtn.disabled = false; // Habilita o botão "Já Paguei"
             } else {
-                qrCodeImageElement.alt = "QR Code não disponível. Use o código Pix Copia e Cola.";
-                qrCodeImageElement.style.display = 'none'; // Esconde a imagem se não tiver URL
+                throw new Error('Resposta da API Pix incompleta. Tente novamente.');
             }
 
-            // CORREÇÃO: Usar pixData.copiaECola corretamente
-            if (pixData.copiaECola) {
-                pixCopiaEColaInput.value = pixData.copiaECola;
-            } else {
-                pixCopiaEColaInput.value = "Código Pix não disponível.";
-                document.querySelector('.pix-code-area button').disabled = true; // Desabilita o botão de copiar
-            }
-
-            // Ativa o botão "Já Paguei" se houver dados de pedido
-            if (fullOrderDetailsString) {
-                jaPagueiBtn.disabled = false;
-            } else {
-                jaPagueiBtn.disabled = true;
-            }
-
-        } catch (e) {
-            console.error("Erro ao parsear dados do QR Code do localStorage:", e);
-            confirmationMessageElement.innerText = "Ocorreu um erro ao carregar os detalhes do pagamento. Por favor, entre em contato.";
+        } catch (error) {
+            console.error('Erro ao gerar QR Code Pix na thank-you-pix.html:', error);
+            confirmationMessageElement.innerText = `Ocorreu um erro ao gerar o pagamento Pix. Por favor, tente novamente ou escolha pagar pelo WhatsApp. Detalhes: ${error.message}`;
             qrCodeImageElement.alt = "Erro ao carregar QR Code";
             qrCodeImageElement.style.display = 'none';
             pixCopiaEColaInput.value = "Erro ao carregar código.";
             document.querySelector('.pix-code-area button').disabled = true;
-            jaPagueiBtn.disabled = true; // Desabilita o botão em caso de erro
+            jaPagueiBtn.disabled = true;
         }
     } else {
-        // Caso não haja dados do QR Code (por exemplo, se o usuário acessou a página diretamente)
-        confirmationMessageElement.innerText = "Nenhum detalhe de pedido Pix encontrado. Por favor, faça um novo pedido.";
+        // Caso não haja dados do pedido (por exemplo, se o usuário acessou a página diretamente)
+        confirmationMessageElement.innerText = "Nenhum detalhe de pedido encontrado. Por favor, volte e faça um novo pedido.";
         qrCodeImageElement.alt = "Nenhum QR Code para exibir.";
         qrCodeImageElement.style.display = 'none';
         pixCopiaEColaInput.value = "Nenhum código para exibir.";
         document.querySelector('.pix-code-area button').disabled = true;
-        jaPagueiBtn.disabled = true; // Desabilita o botão se não houver dados
+        jaPagueiBtn.disabled = true;
     }
-
-    // Adiciona o evento de clique ao botão "Já Paguei"
-    jaPagueiBtn.addEventListener('click', jaPaguei);
 });
 
 function copyPixCode() {
@@ -181,7 +182,7 @@ async function jaPaguei() {
 
         // Limpar o localStorage após o cliente avisar do pagamento
         localStorage.removeItem('cart');
-        localStorage.removeItem('pixQrCodeData');
+        localStorage.removeItem('pixQrCodeData'); // Embora não precise mais, bom para consistência
         localStorage.removeItem('orderConfirmationMessage');
         localStorage.removeItem('fullOrderDetails');
 
