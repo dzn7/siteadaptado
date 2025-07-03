@@ -619,7 +619,7 @@ async function confirmAllOrders() { // Adicionado 'async' pois usaremos 'await'
             console.log("Enviando pedido para gerar QR Code Pix...");
 
             // **EXEMPLO DE CHAMADA DE API (SUBSTITUA PELA SUA REAL!)**
-            const apiResponse = await fetch('SUA_URL_DA_API_DE_PIX', { // <-- SUBSTITUA PELA URL REAL DA SUA API
+            const apiResponse = await fetch('https://apihook.onrender.com', { // <-- SUBSTITUA PELA URL REAL DA SUA API
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
