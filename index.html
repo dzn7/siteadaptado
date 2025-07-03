@@ -12,7 +12,7 @@
       <img src="p.png" alt="Banner de Promoção" />
     </div>
 
-    <div class="banner"></div>
+    <div class="banner" style="background-image: url('/fundopix.png');"></div>
 
     <div class="container">
       <section class="section">
@@ -163,12 +163,24 @@
         </div>
       </section>
 
-      <div id="main-payment-choice-section" style="margin-top: 30px; padding: 20px; background: #ffffff; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+      <div
+        id="main-payment-choice-section"
+        style="
+          margin-top: 30px;
+          padding: 20px;
+          background: #ffffff;
+          border-radius: 12px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        "
+      >
         <h3>Como você quer pagar?</h3>
-        
+
         <div class="payment-mode-group">
           <h4>Pagar pelo WhatsApp</h4>
-          <p class="payment-mode-description">Você finalizará o pedido no WhatsApp e combinaremos o pagamento por lá.</p>
+          <p class="payment-mode-description">
+            Você finalizará o pedido no WhatsApp e combinaremos o pagamento por
+            lá.
+          </p>
           <div class="payment-options">
             <div
               class="payment-card"
@@ -206,7 +218,9 @@
 
         <div class="payment-mode-group">
           <h4>Pagar Online</h4>
-          <p class="payment-mode-description">Pague instantaneamente via Pix pelo Mercado Pago.</p>
+          <p class="payment-mode-description">
+            Pague instantaneamente via Pix pelo Mercado Pago.
+          </p>
           <div class="payment-options">
             <div
               class="payment-card"
@@ -217,16 +231,37 @@
               <div>Pix</div>
               <small>Via Mercado Pago</small>
             </div>
-            </div>
+          </div>
         </div>
 
-        <input type="radio" name="payment" value="whatsapp-pix" style="display: none" />
-        <input type="radio" name="payment" value="whatsapp-especie" style="display: none" />
-        <input type="radio" name="payment" value="whatsapp-cartao" style="display: none" />
-        <input type="radio" name="payment" value="online-pix" style="display: none" />
+        <input
+          type="radio"
+          name="payment"
+          value="whatsapp-pix"
+          style="display: none"
+        />
+        <input
+          type="radio"
+          name="payment"
+          value="whatsapp-especie"
+          style="display: none"
+        />
+        <input
+          type="radio"
+          name="payment"
+          value="whatsapp-cartao"
+          style="display: none"
+        />
+        <input
+          type="radio"
+          name="payment"
+          value="online-pix"
+          style="display: none"
+        />
 
         <div id="troco-section" style="display: none">
-          <label>Troco para quanto? R$
+          <label
+            >Troco para quanto? R$
             <input type="number" id="troco-value" min="0" step="0.01" />
           </label>
         </div>
@@ -235,6 +270,12 @@
       <section class="section form-section">
         <h3>Seu nome</h3>
         <input type="text" id="customer-name" placeholder="Digite seu nome" />
+
+        <h3>Seu e-mail</h3>
+        <input type="email" id="customer-email" placeholder="Digite seu e-mail (obrigatório)" />
+
+        <h3>Seu telefone (WhatsApp)</h3>
+        <input type="tel" id="customer-phone" placeholder="Ex: 86991234567 (apenas números)" pattern="[0-9]{11}" />
       </section>
 
       <section class="section" id="old-cart-section" style="display: none">
@@ -303,8 +344,14 @@
         <div id="complement-limit-info-modal"></div>
 
         <div class="search-complement-wrapper">
-          <input type="text" id="complement-search-input" placeholder="Pesquisar complemento..." onkeyup="filterComplements()" />
-          <span class="search-icon">🔍</span> </div>
+          <input
+            type="text"
+            id="complement-search-input"
+            placeholder="Pesquisar complemento..."
+            onkeyup="filterComplements()"
+          />
+          <span class="search-icon">🔍</span>
+        </div>
         <div class="complements-scroll-area">
           <div class="complement-category">
             <h4>Complementos Grátis</h4>
