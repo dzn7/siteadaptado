@@ -442,6 +442,34 @@ function validateOrder(shouldHighlight = false) {
         return false;
     }
 
+    // NOVO: Validação de email (obrigatório para Pix)
+    const customerEmailInput = document.getElementById('customer-email');
+    const paymentMethod = document.querySelector('input[name="payment"]:checked');
+    if (paymentMethod && paymentMethod.value === 'online-pix') {
+        if (!customerEmailInput || !customerEmailInput.value.trim()) {
+            confirmBtn.disabled = true;
+            if (shouldHighlight) {
+                alert("Para pagamento online (Pix), por favor, digite seu e-mail.");
+                highlightField('customer-email');
+            }
+            return false;
+        }
+    }
+
+    // NOVO: Validação de telefone (se for exigir)
+    const customerPhoneInput = document.getElementById('customer-phone');
+    if (paymentMethod && paymentMethod.value === 'online-pix') { // Opcional: só validar se Pix online
+        if (!customerPhoneInput || !customerPhoneInput.value.trim() || !customerPhoneInput.checkValidity()) {
+            confirmBtn.disabled = true;
+            if (shouldHighlight) {
+                alert("Para pagamento online (Pix), por favor, digite seu telefone no formato correto (apenas 11 números).");
+                highlightField('customer-phone');
+            }
+            return false;
+        }
+    }
+
+
     const isDelivery = document.getElementById('delivery-checkbox').checked;
     const isPickup = document.getElementById('pickup-checkbox').checked;
     if (!isDelivery && !isPickup) {
@@ -462,8 +490,7 @@ function validateOrder(shouldHighlight = false) {
         return false;
     }
 
-    const paymentMethod = document.querySelector('input[name="payment"]:checked');
-    if (!paymentMethod) {
+    if (!paymentMethod) { // Re-verificar o paymentMethod
         confirmBtn.disabled = true;
         if (shouldHighlight) {
             alert("Por favor, selecione uma forma de pagamento.");
@@ -497,6 +524,9 @@ async function confirmAllOrders() {
     }
 
     const customerName = document.getElementById('customer-name').value.trim();
+    const customerEmail = document.getElementById('customer-email')?.value.trim(); // Captura o email
+    const customerPhone = document.getElementById('customer-phone')?.value.trim(); // Captura o telefone
+
     const totalPrice = parseFloat(document.getElementById('total-price').innerText.replace('R$ ', '').replace(',', '.'));
     const isDelivery = document.getElementById('delivery-checkbox').checked;
     const paymentMethodValue = document.querySelector('input[name="payment"]:checked').value;
@@ -511,7 +541,7 @@ async function confirmAllOrders() {
             complements: item.complements.map(comp_id => ({
                 id: comp_id,
                 name: complements[comp_id]?.name,
-                price: complements[comp_id]?.price // <-- ADICIONADO: Garante que o preço do complemento seja enviado
+                price: complements[comp_id]?.price // Garante que o preço do complemento seja enviado
             }))
         })),
         total: totalPrice,
@@ -520,6 +550,8 @@ async function confirmAllOrders() {
             address: isDelivery ? document.getElementById('delivery-address').value.trim() : ''
         },
         customerName: customerName,
+        customerEmail: customerEmail, // Inclui o email no orderDetails
+        customerPhone: customerPhone, // Inclui o telefone no orderDetails
         paymentMethod: paymentMethodValue,
         trocoPara: trocoPara,
     };
@@ -582,14 +614,8 @@ async function confirmAllOrders() {
         closeCartModal();
 
     } else if (paymentMethodValue === 'online-pix') {
-        // --- NOVO FLUXO PARA PIX: APENAS SALVA DETALHES E REDIRECIONA ---
         localStorage.setItem('fullOrderDetails', JSON.stringify(orderDetails));
-
-        // Redireciona para a página de agradecimento, onde a chamada à API do Pix será feita
         window.location.href = 'thank-you-pix.html';
-
-        // O carrinho NÃO é limpo aqui. A limpeza ocorrerá após o cliente clicar em "Já Paguei!"
-        // na página de agradecimento, ou via um webhook (se você tiver um backend mais complexo para isso).
     }
 }
 
@@ -611,6 +637,8 @@ function clearCart() {
     document.getElementById("troco-section").style.display = 'none';
     document.getElementById("troco-value").value = '';
     document.getElementById('customer-name').value = '';
+    document.getElementById('customer-email').value = ''; // Limpa email
+    document.getElementById('customer-phone').value = ''; // Limpa telefone
 
     const confirmBtn = document.getElementById("confirm-all-btn");
     if (confirmBtn) {
@@ -684,7 +712,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Adiciona listeners para os novos campos
     document.getElementById('customer-name')?.addEventListener('input', () => validateOrder(false));
+    document.getElementById('customer-email')?.addEventListener('input', () => validateOrder(false));
+    document.getElementById('customer-phone')?.addEventListener('input', () => validateOrder(false)); // Adiciona listener para telefone
+
     document.getElementById('troco-value')?.addEventListener('input', () => validateOrder(false));
     document.getElementById('delivery-checkbox')?.addEventListener('change', () => validateOrder(false));
     document.getElementById('pickup-checkbox')?.addEventListener('change', () => validateOrder(false));
