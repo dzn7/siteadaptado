@@ -421,14 +421,19 @@ function highlightField(elementId) {
 
 
 function validateOrder(shouldHighlight = false) { 
+    console.log("ValidateOrder called. shouldHighlight:", shouldHighlight); // DEBUG
     const confirmBtn = document.getElementById('confirm-all-btn');
-    if (!confirmBtn) return false;
+    if (!confirmBtn) {
+        console.warn("Confirm button not found."); // DEBUG
+        return false;
+    }
 
     if (cart.length === 0) {
         confirmBtn.disabled = true;
         if (shouldHighlight) { 
             alert("Seu carrinho está vazio! Por favor, adicione itens ao pedido.");
         }
+        console.log("Validation failed: Cart empty."); // DEBUG
         return false;
     }
 
@@ -438,6 +443,7 @@ function validateOrder(shouldHighlight = false) {
             alert("Por favor, digite seu nome completo para o pedido.");
             highlightField('customer-name');
         }
+        console.log("Validation failed: Customer name empty."); // DEBUG
         return false;
     }
 
@@ -449,6 +455,7 @@ function validateOrder(shouldHighlight = false) {
             alert("Por favor, selecione uma opção de entrega ou retirada para o seu pedido.");
             highlightField('delivery-checkbox');
         }
+        console.log("Validation failed: Delivery/Pickup not selected."); // DEBUG
         return false;
     }
 
@@ -458,6 +465,7 @@ function validateOrder(shouldHighlight = false) {
             alert("Por favor, preencha o endereço de entrega para que possamos levar seu pedido.");
             highlightField('delivery-address');
         }
+        console.log("Validation failed: Delivery address empty."); // DEBUG
         return false;
     }
 
@@ -468,6 +476,7 @@ function validateOrder(shouldHighlight = false) {
             alert("Por favor, selecione uma forma de pagamento.");
             highlightField('main-payment-choice-section');
         }
+        console.log("Validation failed: Payment method not selected."); // DEBUG
         return false;
     }
 
@@ -481,11 +490,13 @@ function validateOrder(shouldHighlight = false) {
                 alert("Para pagamento em dinheiro, por favor, informe um valor válido e maior que zero para o troco.");
                 highlightField('troco-value');
             }
+            console.log("Validation failed: Invalid change value for cash."); // DEBUG
             return false;
         }
     }
     
     confirmBtn.disabled = false;
+    console.log("Validation successful! Button enabled."); // DEBUG
     return true;
 }
 
@@ -505,15 +516,10 @@ function openPixModal(qrCodeBase64, pixCodeText) {
 
 function closePixModal() {
     toggleModal('pix-modal-overlay', false);
-    // Opcional: Limpar a imagem e o texto do QR Code ao fechar, para não exibir Pix antigo
     const qrCodeImg = document.getElementById('pix-qr-code-img');
     const pixCodeSpan = document.getElementById('pix-copy-code-text');
     if (qrCodeImg) qrCodeImg.src = '';
     if (pixCodeSpan) pixCodeSpan.textContent = '';
-    
-    // Você NÃO LIMPA O CARRINHO AQUI. 
-    // O carrinho é limpo APENAS quando o webhook do Mercado Pago confirmar o pagamento para o seu backend.
-    // O cliente pode fechar o modal, mas o pedido ainda está pendente de pagamento.
 }
 
 function copyPixCode() {
@@ -531,7 +537,9 @@ function copyPixCode() {
 
 // --- FUNÇÃO FINAL DE CONFIRMAÇÃO ---
 function confirmAllOrders() {
+    console.log("ConfirmAllOrders called."); // DEBUG
     if (!validateOrder(true)) { 
+        console.log("Validation failed in ConfirmAllOrders, returning."); // DEBUG
         return; 
     }
 
@@ -558,7 +566,7 @@ function confirmAllOrders() {
         if (cats.gratis.length) msg += `*Complementos:* ${cats.gratis.join(", ")}\n`;
         if (cats.cobertura.length) msg += `*Cobertura:* ${cats.cobertura.join(", ")}\n`;
         if (cats.adicional.length) msg += `*Adicionais Pagos:* ${cats.adicional.join(", ")}\n`;
-        if (cats.creme.length) msg += `*Cremes:* ${cats.cremes.join(", ")}\n`; // Cuidado aqui, era cats.creme
+        if (cats.creme.length) msg += `*Cremes:* ${cats.creme.join(", ")}\n`; 
         msg += "\n";
     });
 
@@ -577,6 +585,7 @@ function confirmAllOrders() {
     const paymentMethodValue = document.querySelector('input[name="payment"]:checked').value;
 
     if (paymentMethodValue.startsWith('whatsapp-')) {
+        console.log("Payment via WhatsApp selected."); // DEBUG
         const methodType = paymentMethodValue.split('-')[1];
 
         if (methodType === 'pix') {
@@ -589,6 +598,7 @@ function confirmAllOrders() {
             if (trocoInput.offsetParent !== null && (isNaN(trocoParaValor) || trocoParaValor < totalCalculadoParaMensagem)) {
                 alert(`Para pagamento em dinheiro, o valor para troco (R$ ${trocoParaValor.toFixed(2).replace('.', ',')}) não pode ser menor que o total do pedido (R$ ${totalCalculadoParaMensagem.toFixed(2).replace('.', ',')}). Por favor, ajuste o valor.`);
                 highlightField('troco-value');
+                console.log("Cash payment validation failed."); // DEBUG
                 return;
             }
 
@@ -616,17 +626,15 @@ function confirmAllOrders() {
         closeCartModal();
 
     } else if (paymentMethodValue === 'online-pix') {
-        const backendUrl = 'https://SEU_DOMINIO_BACKEND_RENDER.onrender.com'; // **ATENÇÃO: SUBSTITUA PELA SUA URL REAL DO BACKEND NO RENDER**
-        
-        // Dados do pedido para enviar ao backend
+        const backendUrl = 'https://apihook.onrender.com'; // **ATENÇÃO: ATUALIZADO COM SUA NOVA URL DO BACKEND**
+        console.log("Payment via Online Pix selected. Backend URL:", backendUrl); // DEBUG
+
         const orderData = {
             customerName: nome,
-            // É importante passar os itens do carrinho e outros detalhes que o backend precisa
             cartItems: cart.map(item => ({
                 productId: item.productId,
-                productName: products[item.productId]?.name || 'Item Desconhecido', // Fallback para nome
+                productName: products[item.productId]?.name || 'Item Desconhecido', 
                 productPrice: products[item.productId]?.price || 0,
-                // Inclua complementos com nomes e preços para a descrição do item no MP
                 complements: item.complements.map(comp_id => ({
                     id: comp_id,
                     name: complements[comp_id]?.name || 'Comp. Desconhecido',
@@ -635,7 +643,7 @@ function confirmAllOrders() {
             })),
             delivery: isDelivery ? { address: document.getElementById('delivery-address').value.trim(), cost: 2 } : { type: 'pickup' },
             totalAmount: totalCalculadoParaMensagem,
-            externalReference: "PEDIDO_" + Date.now() // Um ID único para seu pedido
+            externalReference: "PEDIDO_" + Date.now() 
         };
 
         alert(`Preparando o Pix para o valor de R$ ${totalCalculadoParaMensagem.toFixed(2).replace('.', ',')}.`);
@@ -649,22 +657,22 @@ function confirmAllOrders() {
         })
         .then(response => {
             if (!response.ok) {
-                // Lidar com erros de HTTP (ex: 400, 500)
+                console.error("HTTP error during fetch:", response.status, response.statusText); // DEBUG
                 return response.json().then(err => Promise.reject(err));
             }
             return response.json();
         })
         .then(data => {
             if (data.status === 'success' && data.qr_code_base64 && data.qr_code) {
-                // Exibir o QR Code e o código Copia e Cola em um modal NO SEU PRÓPRIO SITE
                 openPixModal(data.qr_code_base64, data.qr_code);
-                // Não limpar o carrinho aqui. A limpeza deve ser feita pelo webhook.
+                console.log("Pix modal opened with QR code."); // DEBUG
             } else {
                 alert('Erro ao gerar Pix do Mercado Pago: ' + (data.message || 'Erro desconhecido. Por favor, tente novamente ou escolha pagar pelo WhatsApp.'));
+                console.error("Backend response error:", data); // DEBUG
             }
         })
         .catch(error => {
-            console.error('Erro na requisição para o backend:', error);
+            console.error('Erro na requisição para o backend:', error); // DEBUG
             alert('Ocorreu um erro ao processar seu pagamento online. Tente novamente ou escolha pagar pelo WhatsApp. Detalhes: ' + (error.message || JSON.stringify(error)));
         });
     }
@@ -697,7 +705,7 @@ function clearCart() {
     updateCartCount();
     renderModalCart();
     closeCartModal();
-    closePixModal(); // Fecha também o modal do Pix, caso estivesse aberto
+    closePixModal(); 
 }
 
 // --- NOVO: FUNÇÃO DE PESQUISA DE COMPLEMENTOS ---
@@ -743,7 +751,7 @@ document.addEventListener('DOMContentLoaded', () => {
     validateOrder(false); 
     closeCartModal();
     closeComplementsModal();
-    closePixModal(); // Garante que o modal do Pix esteja fechado no carregamento
+    closePixModal(); 
 
     const cartModalOverlay = document.getElementById('cart-modal-overlay');
     if (cartModalOverlay) {
@@ -761,7 +769,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    // Adiciona listener para o modal Pix também
     const pixModalOverlay = document.getElementById('pix-modal-overlay');
     if (pixModalOverlay) {
         pixModalOverlay.addEventListener('click', function (event) {
