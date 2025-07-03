@@ -683,6 +683,23 @@
       </div>
     </div>
 
+    <div id="pix-modal-overlay">
+      <div id="pix-modal-content">
+        <button class="close-modal-btn" onclick="closePixModal()">X</button>
+        <h3>Pague com Pix!</h3>
+        <p>Escaneie o QR Code ou copie o código Pix para pagar.</p>
+        <div class="pix-info-wrapper">
+          <img id="pix-qr-code-img" src="" alt="QR Code Pix" />
+          <div class="pix-copy-code-container">
+            <span id="pix-copy-code-text"></span>
+            <button class="copy-pix-btn" onclick="copyPixCode()">Copiar Código</button>
+          </div>
+        </div>
+        <p class="pix-instructions">Seu pedido será confirmado assim que o pagamento for detectado.</p>
+        <button class="modal-action-btn continue-shopping" onclick="closePixModal()">Entendi, Continuar Navegando</button>
+      </div>
+    </div>
+
     <footer class="footer">
       <p>Nossa Senhora dos Remédios – PI</p>
       <p>Instagram: @acaiemcasa_nsr</p>
