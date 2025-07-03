@@ -11,18 +11,13 @@ html, body {
   height: 100%;
 }
 :root {
-  /* ... outras variáveis ... */
   --color-bg: #ede6fe;          /* Fundo principal (lavanda muito claro) */
-  --color-surface: var(--color-bg); /* ✅ FAZ OS BLOCOS TEREM A MESMA COR DO FUNDO */
+  --color-surface: var(--color-bg); /* FAZ OS BLOCOS TEREM A MESMA COR DO FUNDO */
   --color-text: #1f2937;         /* Texto principal (quase preto) */
-  /* ... outras variáveis ... */
 }
-/* ESTA É A REGRA CORRIGIDA E COMPLETA */
-/* ESTA É A REGRA CORRIGIDA E COMPLETA */
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: var(--color-bg); /* <- A única regra de fundo que precisamos */
-  /* A linha do background-image foi REMOVIDA */
+  background-color: var(--color-bg);
   background-attachment: fixed;
   color: var(--color-text);
   line-height: 1.6;
@@ -31,7 +26,7 @@ body {
   min-height: 100vh;
 }
 /* ======================================================= */
-/* O RESTO DO SEU CSS CONTINUA ABAIXO         */
+/* O RESTO DO SEU CSS CONTINUA ABAIXO                    */
 /* ======================================================= */
 /* Header */
 .header {
@@ -52,68 +47,46 @@ body {
   padding-bottom: 20px;
 }
 
-/* CÓDIGO CORRIGIDO - Copie e cole este */
-/* VERSÃO CORRETA E COMPLETA - Por favor, use esta */
 .section-title {
-  /* --- Estilos que criam a caixa roxa e o texto branco --- */
-  background-color: #8c2ca7; /* A cor de fundo roxa */
-  color: #fff;              /* A cor da fonte branca */
-  border-radius: 12px;       /* As bordas arredondadas */
-  box-shadow: 0 3px 6px rgba(140, 44, 167, 0.3); /* A sombra suave */
-
-  /* --- Estilos para espaçamento e alinhamento --- */
-  padding: 12px 25px; /* Espaço DENTRO da caixa */
-  margin: 40px auto;      /* Espaço FORA da caixa (em cima e embaixo) */
+  background-color: #8c2ca7;
+  color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(140, 44, 167, 0.3);
+  padding: 12px 25px;
+  margin: 40px auto;
   text-align: center;
   font-size: 1.8rem;
   max-width: 800px;
 }
-
-/* Grids de produtos */
-/* COLE ESTE CÓDIGO NO SEU ARQUIVO styles.css */
-
-/* --- Layout dos Produtos --- */
-
-/*
-  COPIE E COLE ESTE CÓDIGO FINAL NO SEU ARQUIVO styles.css
-  (Apague qualquer versão anterior sobre os produtos)
-*/
-
-/* --- Layout dos Produtos --- */
 
 .products-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
   justify-content: center;
-  align-items: flex-start;    /* <<< ESTA É A NOVA LINHA QUE RESOLVE TUDO */
+  align-items: flex-start;
   padding: 0 10px;
 }
 
-/* 🎯 CORREÇÃO CRÍTICA AQUI: Centraliza todo o conteúdo do product-card */
 .product-card {
   width: 180px;
   margin-bottom: 15px;
   flex-shrink: 0;
-  text-align: center; /* Isso já centraliza o texto */
-  display: flex; /* Transforma o card em um container flex */
-  flex-direction: column; /* Organiza os itens em coluna */
-  align-items: center; /* Centraliza os itens horizontalmente */
-  justify-content: space-between; /* Distribui o espaço entre os itens para que o botão "selecionar" fique sempre na base */
-  padding-bottom: 15px; /* Adiciona um padding para o botão não ficar colado na borda inferior */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 15px;
 }
 
-/* --- Layout para CELULAR --- */
 @media (max-width: 600px) {
   .product-card {
-    width: calc(50% - 15px); /* Mantém os dois cards por linha */
-    flex-grow: 1; /* Permite que os cards cresçam um pouco para preencher o espaço */
-    /* Remova flex-shrink: 0; se você quiser que eles encolham em telas muito pequenas,
-        mas com width: calc(50% - 15px) e gap, geralmente não é necessário. */
+    width: calc(50% - 15px);
+    flex-grow: 1;
   }
 }
 
-/* Estilo para destacar campos não preenchidos */
 .highlight-error {
   border: 2px solid red !important;
   border-radius: 8px;
@@ -121,15 +94,13 @@ body {
   transition: all 0.3s ease-in-out;
 }
 
-/* Para telas maiores (como computador), fazemos os cards ficarem um pouco maiores */
 @media (min-width: 768px) {
   .product-card {
-    width: 180px; /* Em telas grandes, cada card tem uma largura fixa */
-    flex-grow: 0; /* Desativa o ajuste automático em telas grandes */
+    width: 180px;
+    flex-grow: 0;
   }
 }
 
-/* Estilo para destacar campos não preenchidos (já estava no seu JS) */
 .highlight-error {
   border: 2px solid red !important;
   border-radius: 8px;
@@ -152,7 +123,6 @@ body {
     color: #51125e;
     font-size: 1.3rem;
     margin-bottom: 8px;
-    /* Adicionado para garantir o alinhamento central */
     width: 100%;
 }
 
@@ -160,13 +130,13 @@ body {
     font-size: 0.9em;
     color: #666;
     margin-bottom: 10px;
-    flex-grow: 1; /* Permite que ele cresça e ocupe o espaço */
+    flex-grow: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     padding: 5px 0;
-    width: 100%; /* Garante que ocupe a largura total para centralizar */
+    width: 100%;
 }
 
 .price {
@@ -180,7 +150,6 @@ body {
     margin: 8px 0 15px;
 }
 
-/* 🎯 CORREÇÃO CRÍTICA AQUI: Centraliza o botão 'Selecionar' */
 .select-btn {
     background-color: #51125e;
     color: white;
@@ -190,14 +159,12 @@ body {
     font-size: 1.05rem;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-    width: 90%; /* Mantém a largura de 90% */
+    width: 90%;
     max-width: 200px;
-    margin-top: auto; /* IMPORTANTE: Empurra o botão para o final do container flex */
+    margin-top: auto;
     font-weight: 600;
     box-shadow: 0 4px 8px rgba(81, 18, 94, 0.2);
-    /* Remova display: block; e text-align: center; se product-card já for flex
-        e você quiser centralizá-lo com align-self: center; */
-    align-self: center; /* Centraliza o próprio item dentro do container flex (.product-card) */
+    align-self: center;
 }
 
 .select-btn:hover {
@@ -213,11 +180,9 @@ body {
     transform: translateY(0);
 }
 
-/* Banner */
-/* CÓDIGO CORRIGIDO PARA O BANNER DESKTOP */
 .banner {
   width: 100%;
-  max-height: 450px; /* <<< ADICIONE ESTA LINHA PARA LIMITAR A ALTURA */
+  max-height: 450px;
   background-image: url('/d.png');
   background-repeat: no-repeat;
   background-size: cover;
@@ -225,7 +190,6 @@ body {
   aspect-ratio: 16/9;
 }
 
-/* CÓDIGO CORRIGIDO PARA MOBILE */
 @media (max-width: 768px) {
     .banner {
   display: none;
@@ -246,20 +210,14 @@ body {
   }
 
   .banner {
-    display: none; /* ESCONDE o banner genérico no mobile */
+    display: none;
   }
 
   .section-title {
     margin: 30px 10px 20px;
   }
-
-  .products-grid {
-    /* grid-template-columns: 1fr;   Isto vai fazer apenas um card por linha, se você quiser dois, mantenha o flexbox */
-    /* Se você quer um card por linha no mobile, descomente a linha acima e apague a regra .product-card no @media (max-width: 600px) */
-  }
 }
 
-/* Rodapé principal */
 .summary-section {
   background: #ffffff;
   border-radius: 10px 10px 0 0;
@@ -296,7 +254,6 @@ body {
   flex-shrink: 0;
 }
 
-/* Checkboxes e Radios personalizados */
 .complements-grid input[type="checkbox"],
 .delivery-section input[type="checkbox"] {
     position: absolute;
@@ -305,7 +262,6 @@ body {
     height: 0;
     pointer-events: none;
 }
-/* Os inputs de rádio de pagamento agora estão em #main-payment-choice-section */
 #main-payment-choice-section input[name="payment"] {
     position: absolute;
     opacity: 0;
@@ -348,7 +304,6 @@ body {
     font-weight: 600;
 }
 
-/* Alterado para #main-payment-choice-section */
 #main-payment-choice-section .payment-card.selected {
     border-color: #8c2ca7;
     background-color: #f0e6ff;
@@ -371,19 +326,11 @@ body {
 .complements-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-    gap: 12px; /* Ajuste o espaçamento como preferir */
-    
-    /* ✅ ADICIONE ESTA LINHA: */
-    /* Centraliza a grade horizontalmente quando há espaço sobrando. */
-    justify-content: center; 
-
-    /* A propriedade abaixo pode ser removida ou mantida, pois */
-    /* o alinhamento já é feito no .complement-item. */
-    align-items: stretch; 
+    gap: 12px;
+    justify-content: center;
+    align-items: stretch;
 }
 
-/* Opcional: Garante que o texto dentro de cada item esteja sempre centralizado. */
-/* Seu código já faz isso bem, mas esta é uma confirmação. */
 .complement-item {
     display: flex;
     flex-direction: column;
@@ -415,7 +362,7 @@ body {
 }
 
 .delivery-section h3, #main-payment-choice-section h3, #delivery-address-section h3,
-.payment-mode-group h4 { /* Novo: estiliza o h4 para os grupos de pagamento */
+.payment-mode-group h4 {
     color: #51125e;
     font-size: 1.2rem;
     margin-bottom: 15px;
@@ -465,7 +412,7 @@ body {
     border-radius: 15px;
     padding: 15px;
     cursor: pointer;
-    display: flex; /* Para alinhar imagem e texto */
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -488,7 +435,7 @@ body {
     font-weight: 500;
 }
 
-.payment-card small { /* Estilo para a tag small "Via WhatsApp" ou "Via Mercado Pago" */
+.payment-card small {
     font-size: 0.85em;
     color: #777;
     margin-top: 5px;
@@ -611,7 +558,8 @@ body {
 
 /* --- ESTILOS GERAIS PARA MODAIS --- */
 #cart-modal-overlay,
-#complements-modal-overlay {
+#complements-modal-overlay,
+#pix-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -620,26 +568,25 @@ body {
     background-color: rgba(0, 0, 0, 0.6);
     z-index: 2000;
     
-    /* Centraliza a caixa do modal */
     display: flex;
     align-items: center;
     justify-content: center;
 
-    /* Controle de visibilidade */
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 #cart-modal-overlay.is-visible,
-#complements-modal-overlay.is-visible {
+#complements-modal-overlay.is-visible,
+#pix-modal-overlay.is-visible {
     opacity: 1;
     visibility: visible;
 }
 
 /* Conteúdo do Modal (a caixa branca) */
 #cart-modal-content,
-#complements-modal-content {
+#complements-modal-content { /* Estes modais terão a altura dinâmica (90vh) */
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
@@ -649,18 +596,40 @@ body {
     text-align: center;
     position: relative;
     
-    /* Layout Flexível e Altura */
-    height: 90vh; /* FORÇA a altura do modal */
+    height: 90vh; /* Mantido 90vh para estes */
     display: flex;
     flex-direction: column;
     
-    /* Animação */
     transform: scale(0.95);
     transition: transform 0.3s ease;
 }
 
+/* Estilo ESPECÍFICO para o modal do Pix para ser mais compacto */
+#pix-modal-content {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+    width: 90%;
+    max-width: 500px; /* Reduzido para o modal Pix */
+    padding: 30px;
+    text-align: center;
+    position: relative;
+    
+    height: auto; /* Altura automática baseada no conteúdo */
+    max-height: 90vh; /* Limita a altura, mas deixa o conteúdo ditar */
+    overflow-y: auto; /* Adiciona scroll se necessário */
+
+    display: flex;
+    flex-direction: column;
+    
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+
 #cart-modal-overlay.is-visible #cart-modal-content,
-#complements-modal-overlay.is-visible #complements-modal-content {
+#complements-modal-overlay.is-visible #complements-modal-content,
+#pix-modal-overlay.is-visible #pix-modal-content {
     transform: scale(1);
 }
 
@@ -680,12 +649,9 @@ body {
 
 /* Área de Rolagem dos Complementos */
 .complements-scroll-area {
-    /* Layout Flexível */
-    flex-grow: 1; /* Faz esta área ocupar TODO o espaço vertical disponível */
-    
-    /* Scroll e Correção */
-    overflow-y: auto; /* Adiciona scroll APENAS aqui quando necessário */
-    min-height: 0; /* Correção crítica para o flexbox permitir o scroll */
+    flex-grow: 1;
+    overflow-y: auto;
+    min-height: 0;
     text-align: left;
     padding: 0 10px;
 }
@@ -695,17 +661,11 @@ body {
     padding-top: 20px;
     border-top: 1px solid #eee;
     background-color: #ffffff;
-    
-    /* Layout Flexível */
-    flex-shrink: 0; /* Impede que esta área encolha */
-    
-    /* Alinhamento dos botões */
+    flex-shrink: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 15px;
-    
-    /* Controle de visibilidade (seu JS está correto) */
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -731,11 +691,6 @@ body {
     transition: all 0.3s ease;
 }
 
-.confirm-complement-btn {
-    background-color: #2ecb70;
-    color: white;
-    box-shadow: 0 4px 8px rgba(46, 203, 112, 0.3);
-}
 .confirm-complement-btn:hover {
     background-color: #28b563;
     transform: translateY(-2px);
@@ -754,35 +709,56 @@ body {
 /***** FIM DA SEÇÃO DO MODAL *****/
 
 /* Media Queries para Mobile */
-/* Media Queries para Mobile - MODAL REDUZIDO */
 @media (max-width: 600px) {
     .floating-cart-btn {
         bottom: 100px;
         width: 55px;
         height: 55px;
     }
-    /* Modal com largura e altura máximas em celulares */
-      #complements-modal-content {
+    #complements-modal-content {
         width: 90%;
         border-radius: 12px;
         padding: 20px;
-        display: flex; /* Mantém o flexbox */
-        flex-direction: column; /* Mantém a direção em coluna */
-
-        /* A MUDANÇA PRINCIPAL: */
-        height: auto; /* A altura será automática, baseada no conteúdo */
-        max-height: 85vh; /* Limita a altura a 85% da altura da tela */
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        max-height: 85vh;
     }
 
-    /* AJUSTE AQUI: A área de rolagem */
     .complements-scroll-area {
-        overflow-y: auto; /* Adiciona scroll APENAS se o conteúdo estourar o max-height */
+        overflow-y: auto;
         padding-top: 35px;
-        
-        /* A propriedade flex-grow: 1 foi removida para não criar espaço extra */
     }
     .modal-cart-actions {
-        margin: 20px 0 10px; /* Reduz um pouco a margem inferior */
+        margin: 20px 0 10px;
+    }
+
+    /* Estilo ESPECÍFICO para o modal do Pix em mobile */
+    #pix-modal-content {
+        width: 95%; /* Um pouco mais largo para ocupar bem a tela */
+        max-width: 380px; /* Reduz o max-width para telas bem pequenas */
+        padding: 15px; /* Reduz o padding para dar mais espaço ao conteúdo */
+    }
+    #pix-qr-code-img {
+        width: 140px; /* QR Code menor em mobile */
+        height: 140px;
+    }
+    .pix-copy-code-container {
+        flex-direction: column;
+        gap: 8px;
+        padding: 8px 10px; /* Ajusta padding */
+    }
+    #pix-copy-code-text {
+        font-size: 0.8em; /* Fonte um pouco menor */
+    }
+    .copy-pix-btn {
+        width: 100%;
+        font-size: 0.85em;
+        padding: 6px 10px;
+    }
+    #pix-modal-content .modal-action-btn {
+        font-size: 1rem;
+        padding: 12px 20px;
     }
 }
 
@@ -803,7 +779,6 @@ body {
     box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 
-/* Botão Verde "Enviar Pedido" */
 .modal-action-btn.confirm-order {
     background-color: #2ecb70;
     color: white;
@@ -813,7 +788,6 @@ body {
 }
 
 
-/* Botão "Selecionar mais itens" (estilo secundário) */
 .modal-action-btn.continue-shopping {
     background-color: #fff;
     color: #51125e;
@@ -823,7 +797,6 @@ body {
     background-color: #f5f0ff;
 }
 
-/* Ajusta o botão de limpar para ser menos proeminente */
 .modal-clear-cart-btn {
     background: none;
     border: none;
@@ -838,12 +811,11 @@ body {
     background-color: transparent;
     transform: none;
 }
-/* --- Efeito de Destaque para Validação de Campos --- */
 .highlight-error {
-  border: 2px solid #e74c3c !important; /* Borda vermelha forte */
-  box-shadow: 0 0 10px rgba(231, 76, 60, 0.5) !important; /* Sombra vermelha */
+  border: 2px solid #e74c3c !important;
+  box-shadow: 0 0 10px rgba(231, 76, 60, 0.5) !important;
   transition: all 0.3s ease-in-out;
-  transform: scale(1.02); /* Leve aumento para chamar atenção */
+  transform: scale(1.02);
 }
 body.modal-open {
   overflow: hidden;
@@ -853,7 +825,7 @@ body.modal-open {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: #fff; /* cor de fundo para prevenir transparência */
+  background-color: #fff;
   text-align: center;
 }
 
@@ -863,7 +835,6 @@ body.modal-open {
   display: block;
 }
 
-/* Mostrar apenas em dispositivos móveis */
 @media (max-width: 768px) {
   #mobile-banner {
     display: block;
@@ -877,55 +848,50 @@ body.modal-open {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* Estiliza o título "Seu nome" dentro da nova caixa */
 .form-section h3 {
-  color: #51125e; /* Cor roxa da sua marca */
+  color: #51125e;
   font-size: 1.5rem;
   font-weight: 700;
   text-align: center;
   margin-bottom: 20px;
 }
 
-/* Novo visual para o campo de digitar o nome */
 #customer-name {
-  background-color: #f5f3ff; /* Fundo lavanda bem claro */
-  border: 2px solid transparent; /* Borda inicial transparente */
+  background-color: #f5f3ff;
+  border: 2px solid transparent;
   border-radius: 12px;
   padding: 15px;
   width: 100%;
   font-size: 1.1rem;
   color: #333;
-  text-align: left; /* Melhor para digitar nomes */
+  text-align: left;
   font-family: 'Poppins', sans-serif;
   transition: all 0.3s ease;
 }
 
-/* Estilo para o texto 'Digite seu nome' */
 #customer-name::placeholder {
   color: #999;
 }
 
-/* Efeito roxo ao clicar no campo (mantendo e melhorando o que você já tinha) */
 #customer-name:focus {
   background-color: #ffffff;
-  border-color: #8c2ca7; /* Borda roxa bonita */
-  box-shadow: 0 0 0 4px rgba(140, 44, 167, 0.15); /* Sombra externa roxa */
+  border-color: #8c2ca7;
+  box-shadow: 0 0 0 4px rgba(140, 44, 167, 0.15);
   outline: none;
 }
-/* Adicione estas regras ao seu styles.css */
 
 .search-complement-wrapper {
-  position: relative; /* Para posicionar o ícone dentro */
-  margin: 20px auto; /* Centraliza a caixa de busca e adiciona margem */
-  width: 90%; /* Largura do campo de busca */
-  max-width: 400px; /* Limita a largura em telas maiores */
+  position: relative;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 400px;
 }
 
 #complement-search-input {
   width: 100%;
-  padding: 12px 40px 12px 15px; /* Espaço para o texto e para o ícone */
+  padding: 12px 40px 12px 15px;
   border: 1px solid #ccc;
-  border-radius: 25px; /* Bordas mais arredondadas */
+  border-radius: 25px;
   font-size: 1rem;
   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
   transition: all 0.3s ease;
@@ -947,19 +913,15 @@ body.modal-open {
   top: 50%;
   transform: translateY(-50%);
   color: #888;
-  pointer-events: none; /* Garante que o ícone não interfira com o input */
+  pointer-events: none;
 }
 
-/* Ajuste no layout do modal para acomodar a barra de pesquisa */
 #complements-modal-content {
-  /* Mantenha suas regras existentes, apenas certifique-se que o padding superior ou margem inferior
-    do h3 não esteja conflitando. */
-  padding-top: 20px; /* Garante espaço no topo */
+  padding-top: 20px;
 }
 
 .complements-scroll-area {
-  /* Pode precisar ajustar o padding-top aqui se o campo de busca estiver muito próximo */
-  padding-top: 15px; /* Garante um bom espaçamento entre a busca e as categorias */
+  padding-top: 15px;
 }
 
 /* --- Novos estilos para a seção de escolha de pagamento principal --- */
@@ -977,7 +939,7 @@ body.modal-open {
     padding: 15px;
     border: 1px solid #eee;
     border-radius: 10px;
-    background-color: #f9f9f9; /* Um fundo leve para agrupar */
+    background-color: #f9f9f9;
 }
 
 .payment-mode-group:last-child {
@@ -987,7 +949,7 @@ body.modal-open {
 .payment-mode-group h4 {
     font-size: 1.3em;
     color: #51125e;
-    margin-top: 0; /* Remove margem superior padrão do h4 */
+    margin-top: 0;
     margin-bottom: 10px;
 }
 
@@ -1024,17 +986,15 @@ body.modal-open {
     right: 0;
 }
 
-/* Garante que o card selecionado seja diferente */
 .payment-card.selected {
-    border-color: #2ecb70; /* Verde para seleção */
-    background-color: #e6ffe6; /* Fundo verde claro */
-    color: #28a745; /* Texto verde */
+    border-color: #2ecb70;
+    background-color: #e6ffe6;
+    color: #28a745;
     box-shadow: 0 4px 8px rgba(46, 203, 112, 0.3);
 }
 
-/* Pequeno ajuste para os radios ocultos dentro da nova estrutura */
 #main-payment-choice-section input[name="payment"] {
-    position: absolute; /* Mantenha-os ocultos */
+    position: absolute;
     opacity: 0;
     width: 0;
     height: 0;
