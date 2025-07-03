@@ -271,11 +271,13 @@
         <h3>Seu nome</h3>
         <input type="text" id="customer-name" placeholder="Digite seu nome" />
 
-        <h3>Seu e-mail</h3>
-        <input type="email" id="customer-email" placeholder="Digite seu e-mail (obrigatório)" />
+        <div id="email-phone-fields" class="email-phone-section" style="display: none;">
+            <h3>Seu e-mail</h3>
+            <input type="email" id="customer-email" placeholder="Digite seu e-mail (obrigatório)" />
 
-        <h3>Seu telefone (WhatsApp)</h3>
-        <input type="tel" id="customer-phone" placeholder="Ex: 86991234567 (apenas números)" pattern="[0-9]{11}" />
+            <h3>Seu telefone (WhatsApp)</h3>
+            <input type="tel" id="customer-phone" placeholder="Ex: 86991234567 (apenas números)" pattern="[0-9]{11}" />
+        </div>
       </section>
 
       <section class="section" id="old-cart-section" style="display: none">
