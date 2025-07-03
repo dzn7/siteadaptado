@@ -1,0 +1,249 @@
+/* src/thank-you-styles.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+/* Variáveis de cores - Importante: copie estas variáveis também para este arquivo */
+:root {
+    --color-bg: #eee6fe; /* Fundo principal (lavanda muito claro) */
+    --color-primary: #8c2ca7; /* Roxo principal (para títulos, destaques) */
+    --color-secondary: #51125e; /* Roxo mais escuro (para botões, textos importantes) */
+    --color-accent: #2ecb70; /* Verde vibrante (para preços, sucesso) */
+    --color-text: #1f2937; /* Texto principal (quase preto) */
+    --color-surface: #ffffff; /* Fundo de seções/cards */
+    --color-warning: #FFC107; /* Amarelo/laranja para avisos */
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--color-bg); /* Fundo lavanda claro */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alinha no topo para melhor visualização em telas grandes */
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    color: var(--color-text); /* Cor do texto padrão */
+}
+
+.thank-you-container {
+    background-color: var(--color-surface); /* Fundo branco para o container */
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: center;
+    max-width: 600px; /* Largura máxima para a página */
+    width: 100%;
+    margin-top: 20px; /* Espaço do topo */
+}
+
+.main-banner-area {
+    margin-bottom: 25px;
+}
+
+.responsive-banner {
+    max-width: 100%;
+    height: auto; /* Mantém a proporção */
+    display: block; /* Remove espaço extra abaixo da imagem */
+    margin: 0 auto; /* Centraliza a imagem */
+    border-radius: 8px;
+}
+
+.thank-you-message-section {
+    margin-bottom: 25px;
+}
+
+.thank-you-message-section h1 {
+    color: var(--color-accent); /* Verde vibrante para o sucesso */
+    font-size: 2.2em;
+    margin-bottom: 10px;
+}
+
+.thank-you-message-section p {
+    color: var(--color-text);
+    font-size: 1.1em;
+    line-height: 1.6;
+}
+
+.pix-payment-details {
+    margin-top: 30px;
+    padding: 25px;
+    background-color: #e6ffe6; /* Fundo mais suave para a seção Pix (tom do verde vibrante) */
+    border-radius: 10px;
+    border: 1px solid #c8e6c9;
+}
+
+.pix-payment-details h2 {
+    color: var(--color-secondary); /* Roxo mais escuro para o título Pix */
+    font-size: 1.8em;
+    margin-bottom: 15px;
+}
+
+.pix-payment-details p {
+    color: var(--color-text);
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
+.qr-code-area {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+
+#qr-code-image {
+    width: 250px; /* Tamanho fixo para o QR Code */
+    height: 250px;
+    max-width: 100%; /* Garante que não ultrapasse o contêiner */
+    height: auto; /* Mantém a proporção */
+    display: block;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.pix-code-area {
+    display: flex;
+    flex-wrap: wrap; /* Permite quebrar linha em telas menores */
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#pix-copia-e-cola {
+    flex-grow: 1;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 0.95em;
+    color: #333;
+    background-color: #f9f9f9;
+    font-family: monospace; /* Para o código */
+    max-width: calc(100% - 120px); /* Ajuste para o botão */
+}
+
+.pix-code-area button {
+    background-color: var(--color-primary); /* Roxo principal */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 30px; /* Botão arredondado */
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    font-weight: 600;
+    box-shadow: 0 4px 8px rgba(var(--color-primary), 0.2);
+}
+
+.pix-code-area button:hover {
+    background-color: #6d1c80; /* Roxo um pouco mais claro no hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(var(--color-primary), 0.3);
+}
+
+.instruction-text {
+    margin-top: 25px;
+    font-size: 1.1em;
+    color: var(--color-secondary); /* Roxo mais escuro para destaque */
+    font-weight: bold; /* Para destacar a instrução */
+}
+
+/* Estilo para o botão "Já Paguei" */
+.ja-paguei-btn {
+    background-color: var(--color-warning); /* Amarelo/laranja da variável */
+    color: var(--color-text); /* Texto padrão */
+    border: none;
+    padding: 15px 30px;
+    border-radius: 35px; /* Bordas bem arredondadas */
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    display: inline-block;
+    width: auto;
+}
+
+.ja-paguei-btn:hover {
+    background-color: #e0a800; /* Um tom mais escuro de amarelo/laranja */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+.ja-paguei-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+    color: #666;
+}
+
+.return-home {
+    margin-top: 30px;
+}
+
+.btn-home {
+    display: inline-block;
+    background-color: var(--color-secondary); /* Roxo mais escuro */
+    color: white;
+    padding: 12px 25px;
+    border-radius: 30px; /* Arredondado como os outros botões */
+    text-decoration: none;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    font-weight: 600;
+    box-shadow: 0 4px 8px rgba(var(--color-secondary), 0.2);
+}
+
+.btn-home:hover {
+    background-color: #6d1c80; /* Roxo um pouco mais claro no hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(var(--color-secondary), 0.3);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    body {
+        padding: 10px; /* Reduz padding em telas menores */
+    }
+    .thank-you-container {
+        padding: 20px;
+        margin-top: 10px;
+    }
+    .thank-you-message-section h1 {
+        font-size: 1.8em;
+    }
+    .pix-payment-details h2 {
+        font-size: 1.5em;
+    }
+    .pix-code-area {
+        flex-direction: column; /* Botão embaixo do campo de texto em telas pequenas */
+        align-items: stretch;
+    }
+    #pix-copia-e-cola {
+        max-width: 100%;
+    }
+    .ja-paguei-btn {
+        padding: 12px 20px;
+        font-size: 1.1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .thank-you-container {
+        padding: 15px;
+    }
+    .thank-you-message-section h1 {
+        font-size: 1.5em;
+    }
+    .pix-payment-details h2 {
+        font-size: 1.3em;
+    }
+    .instruction-text {
+        font-size: 1em;
+    }
+    .ja-paguei-btn {
+        font-size: 1em;
+        padding: 10px 15px;
+    }
+}
