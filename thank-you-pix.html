@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agradecimento do Pedido - Açaí Em Casa</title>
+    <link rel="stylesheet" href="/src/thank-you-styles.css" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  </head>
+  <body>
+    <div class="thank-you-container">
+      <div class="main-banner-area">
+        <img
+          src="fundopix.png"
+          alt="Banner de Agradecimento Açaí Em Casa"
+          class="responsive-banner"
+        />
+      </div>
+
+      <div class="thank-you-message-section">
+        <h1>Obrigado Pela Preferência!</h1>
+        <p id="confirmation-message">Seu pedido foi recebido com sucesso.</p>
+      </div>
+
+      <div class="pix-payment-details">
+        <h2>Pagamento via Pix</h2>
+        <p>Escaneie o QR Code abaixo para realizar o pagamento:</p>
+        <div class="qr-code-area">
+          <img
+            id="qr-code-image"
+            src="placeholder-qr.png"
+            alt="QR Code Pix"
+          />
+        </div>
+        <p>Ou copie e cole o código Pix:</p>
+        <div class="pix-code-area">
+          <input type="text" id="pix-copia-e-cola" readonly />
+          <button onclick="copyPixCode()">Copiar Código</button>
+        </div>
+        <p class="instruction-text">
+          Ao realizar o Pix,
+          **volte a esta página e clique no botão abaixo**
+          para nos avisar que o pagamento foi feito!
+        </p>
+        <button id="ja-paguei-btn" class="ja-paguei-btn">
+          ✅ Já Paguei!
+        </button>
+      </div>
+
+      <div class="return-home">
+        <a href="https://acaiemcasasite.onrender.com/" class="btn-home"
+          >Voltar para o Início</a
+        >
+      </div>
+    </div>
+
+    <script src="/src/thank-you-script.js"></script>
+  </body>
+</html>
